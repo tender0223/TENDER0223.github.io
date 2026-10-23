@@ -1,0 +1,829 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转以下代码均以python为例 介绍Yolo(You Only Look Once)是一种one-stage目标检测算法，即仅需要 “看” 一次就可以识别出图片中物体的class类别和边界">
+<meta property="og:type" content="article">
+<meta property="og:title" content="yolo初学记录1">
+<meta property="og:url" content="http://example.com/2026/01/30/yolostudy/yolo%E5%AD%A6%E4%B9%A01/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转以下代码均以python为例 介绍Yolo(You Only Look Once)是一种one-stage目标检测算法，即仅需要 “看” 一次就可以识别出图片中物体的class类别和边界">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/imgs/2026-01-29/wJ509I0jNUCe0mZe.png">
+<meta property="article:published_time" content="2026-01-30T07:21:32.000Z">
+<meta property="article:modified_time" content="2026-01-30T09:41:33.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="yolo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/imgs/2026-01-29/wJ509I0jNUCe0mZe.png">
+  
+  
+  
+  <title>yolo初学记录1 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>Home</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>Archives</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>Categories</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>Tags</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>About</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>Search</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="Light"
+               data-label-dark="Dark">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">Dark</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="yolo初学记录1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-30 15:21" pubdate>
+          January 30, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          65 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">yolo初学记录1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h5 id="最近接触了不少的关于自动化的操作，包括不限制dm-乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转"><a href="#最近接触了不少的关于自动化的操作，包括不限制dm-乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转" class="headerlink" title="最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转"></a>最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转</h5><p>以下代码均以python为例</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Yolo(You Only Look Once)是一种one-stage目标检测算法，即仅需要 <strong>“看”</strong> 一次就可以识别出图片中物体的class类别和边界框。<strong>Yolov8</strong>是Ultralytics公司最新推出的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Yolo%E7%B3%BB%E5%88%97&spm=1001.2101.3001.7020">Yolo系列</a>目标检测算法，可以用于图像分类、物体检测和实例分割等任务。（百度复制）</p>
+<h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>miniconda<br>ultralytics</p>
+<h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>yolo </p>
+<ol>
+<li>参数<ol>
+<li>source：使用模型 yolo11nt.pt</li>
+<li>task：task指的是要执行的具体任务类型，是以下之一 <code>[detect, segment, classify, pose, obb]</code>。如果未明确传递，YOLO 将尝试推断 <code>TASK</code>（可选）</li>
+<li>mode：mode则指的是操作的模式，如训练、预测或验证，是以下之一 <code>[train, val, predict, export, track, benchmark]</code>（必需）默认为predict</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> ultralytics <span class="hljs-keyword">import</span> YOLO<br>yolo = YOLO(<span class="hljs-string">&quot;yolo.pt&quot;</span>,task=<span class="hljs-string">&quot;decect&quot;</span>)<br><span class="hljs-comment"># 都是可以的 一样的 因为yolo会自己判断需要怎么做 基本上默认都是detect</span><br>yolo = YOLO(<span class="hljs-string">&quot;yolo.pt&quot;</span>)<br><span class="hljs-comment"># 模型</span><br></code></pre></td></tr></table></figure>
+<h3 id="训练-train"><a href="#训练-train" class="headerlink" title="训练 train"></a>训练 train</h3><ol>
+<li>先自己准备好自己要训练的图片</li>
+<li>准备好标注软件 这里我使用的是<a target="_blank" rel="noopener" href="https://github.com/HumanSignal/labelImg">labelImg</a></li>
+<li>准备好目录</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">datasets<br>		|_ icon<br>					|_ img<br>					|		|__ train<br>					|		|__ val<br>					|_ label<br>							|__ train<br>							|__ val<br>需要进行训练的 放在 img&gt;train<br>需要训练完毕进行验证 放在 img&gt;val 注意 这里的文件图片不能一样 否则无法正确判断你的训练是否足够<br>labelimg标注完毕的标签也要分开放<br>放在训练对应的图片标签也要相应的放在 label&gt;train 中<br>放在训练完毕需要验证的图片对应放在 label&gt;val 中<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> ultralytics <span class="hljs-keyword">import</span> YOLO<br>yolo = YOLO(<span class="hljs-string">&quot;yolo.pt&quot;</span>)<br>yolo.train(data=<span class="hljs-string">&quot;yolo.yaml&quot;</span>,epochs=<span class="hljs-number">300</span>,workers=<span class="hljs-number">0</span>,batch=<span class="hljs-number">16</span>) <span class="hljs-comment">#开始运行之后就可以正常的训练了！</span><br><span class="hljs-comment"># 如果电脑出现问题导致中断，以下可以进行按照原先进行继续训练</span><br><span class="hljs-comment"># 出了错 会在runs目录中生成一个最新的train文件夹 在该文件夹中有两个pt文件 分别为</span><br><span class="hljs-comment"># 1. best.pt  为截止到结束时训练最好的模型</span><br><span class="hljs-comment"># 2. last.pt	为截止的时候出现最后一个模型</span><br><span class="hljs-comment"># 我们采用截止的时候最后一个模型进行继续训练</span><br>yolo = YOLO(<span class="hljs-string">&quot;runs/train/last.pt&quot;</span>)<br>yolo.train(resume=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># train的参数</span><br><span class="hljs-comment"># data (str): 你要训练的文件</span><br><span class="hljs-comment"># epochs (int):你要训练的轮次 一般越大越好 具体得看你提供多少张图片 图片少 轮次大 则会提前训练我那比 轮次少图片多 则训练完也不会有很好的效果 建议300张图片 300轮+循环  </span><br><span class="hljs-comment"># batch_size (int): Batch size for training.  （未知）</span><br><span class="hljs-comment"># imgsz (int): Input image size.  （未知）</span><br><span class="hljs-comment"># device (str): Device to run training on (e.g., &#x27;cuda&#x27;, &#x27;cpu&#x27;). 选择cpu还是gpu 建议无脑cpu得了 </span><br><span class="hljs-comment"># workers (int): Number of worker threads for data loading.   （未知）</span><br><span class="hljs-comment"># optimizer (str): Optimizer to use for training.  （未知）</span><br><span class="hljs-comment"># lr0 (float): Initial learning rate.  （未知）</span><br><span class="hljs-comment"># patience (int): Epochs to wait for no observable improvement for early stopping of training.（未知）</span><br></code></pre></td></tr></table></figure>
+<h4 id="yaml详解"><a href="#yaml详解" class="headerlink" title="yaml详解"></a>yaml详解</h4><p>在训练的时候需要提前准备好自己的yaml文件（该文件是官方有自己详细的文本的可以照抄改改路径即可 可以在<strong>ultralytics&#x2F;cfg&#x2F;datasets</strong>中去寻找不少官方自己提供的yaml文件）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">path:</span> <span class="hljs-string">../datasets/african-wildlife</span> <span class="hljs-comment"># 这里填写你的文件夹 即./datasets/icon </span><br><span class="hljs-attr">train:</span> <span class="hljs-string">train/images</span> <span class="hljs-comment"># 要训练的图片的文件夹路径 path/img/train</span><br><span class="hljs-attr">val:</span> <span class="hljs-string">valid/images</span> <span class="hljs-comment"># 要验证的图片的文件夹路径 path/img/val</span><br><span class="hljs-comment"># test:  可以为空没事 </span><br>  <br><span class="hljs-comment"># Classes  这里是你用了多少个标签 一定要按照你标签的顺序 </span><br><span class="hljs-comment">#在labelimg中data文件夹里会有一个classes.txt的文本记录了你当前已经标注好的标签的顺序 按顺序依次排列</span><br><span class="hljs-comment">#因为在标记好的文本标签中会记录你当前图片是使用了哪一个序号进行的标记,如果这里对照有误则在训练的时候就也会出错！！</span><br><span class="hljs-attr">names:</span>   <br>  <span class="hljs-attr">0:</span> <span class="hljs-string">buffalo</span>  <br>  <span class="hljs-attr">1:</span> <span class="hljs-string">elephant</span>  <br>  <span class="hljs-attr">2:</span> <span class="hljs-string">rhino</span>  <br>  <span class="hljs-attr">3:</span> <span class="hljs-string">zebra</span>  <br></code></pre></td></tr></table></figure>
+<p>在训练完毕之后 可以检查runs&#x2F;train目录中的图片</p>
+<h3 id="预测-predict"><a href="#预测-predict" class="headerlink" title="预测 predict"></a>预测 predict</h3><p><strong>该模型即为当前yolo核心之一的功能</strong>（我认为的 另一个就是训练train 和导出）<br>可以对图像进行预测 并且给出中心点 坐标点 标记 可信度等等内容<br><img src="/imgs/2026-01-29/wJ509I0jNUCe0mZe.png" srcset="/img/loading.gif" lazyload alt="输入图片说明"><br>左边为原图，右边则为已处理过的图片<br>这里并没有什么值得额外说明的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 参数说明</span><br><span class="hljs-comment">#source (str | Path | int | PIL.Image | np.ndarray | torch.Tensor | List | Tuple) </span><br><span class="hljs-comment"># 文件路径/包含文件路径的数组or字典</span><br><span class="hljs-comment">#Returns:  </span><br><span class="hljs-comment"># (List[ultralytics.engine.results.Results])</span><br><span class="hljs-comment"># 返回一个数组 包含所有信息</span><br><span class="hljs-built_in">print</span>(result[0].boxes) <span class="hljs-comment"># boxes: ultralytics.engine.results.Boxes object </span><br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs python">yolo = YOLO(<span class="hljs-string">&quot;best.pt&quot;</span>)  <span class="hljs-comment"># 使用刚刚训练好的pt文件</span><br>result = yolo.predict(<span class="hljs-string">&quot;1.jpg&quot;</span>,save=<span class="hljs-literal">True</span>)<br><span class="hljs-comment"># result = yolo(&quot;1.jpg&quot;,save=True) # 这里是有默认的 yolo默认使用predict </span><br><span class="hljs-comment"># source 1.jpg 这里的参数可以有很多 可以是一段视频 如1.mp4 可以是当前电脑的屏幕 = screen 也可以是当前摄像头 =0 如果要使用指定窗口那就得设计到窗口句柄的绑定问题了</span><br><span class="hljs-comment"># save 意义为是否保存该次的识别内容</span><br><span class="hljs-comment"># show=True            # 持续展示</span><br><span class="hljs-comment"># save=True,           # 保存结果</span><br><span class="hljs-comment"># save_txt=True,       # 保存标签文件</span><br><span class="hljs-comment"># save_conf=True,      # 保存置信度</span><br><span class="hljs-comment"># line_width=2,        # 边界框线宽</span><br><span class="hljs-comment"># stream=True,         # 流模式（减少延迟）</span><br><span class="hljs-comment"># classes=[0, 2]       # 只检测人(0)和车(2)</span><br>keypoints: <span class="hljs-literal">None</span><br>masks: <span class="hljs-literal">None</span><br>names: &#123;<span class="hljs-number">0</span>: <span class="hljs-string">&#x27;person&#x27;</span>,<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;car&#x27;</span>&#125;<br>obb: <span class="hljs-literal">None</span><br>orig_img: array([[[<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        [<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        [<span class="hljs-number">134</span>, <span class="hljs-number">135</span>, <span class="hljs-number">131</span>],<br>        ...,<br>        [<span class="hljs-number">139</span>, <span class="hljs-number">140</span>, <span class="hljs-number">131</span>],<br>        [<span class="hljs-number">134</span>, <span class="hljs-number">135</span>, <span class="hljs-number">126</span>],<br>        [<span class="hljs-number">127</span>, <span class="hljs-number">128</span>, <span class="hljs-number">119</span>]],<br><br>       [[<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        [<span class="hljs-number">126</span>, <span class="hljs-number">127</span>, <span class="hljs-number">123</span>],<br>        [<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        ...,<br>        [<span class="hljs-number">135</span>, <span class="hljs-number">136</span>, <span class="hljs-number">127</span>],<br>        [<span class="hljs-number">130</span>, <span class="hljs-number">131</span>, <span class="hljs-number">122</span>],<br>        [<span class="hljs-number">123</span>, <span class="hljs-number">124</span>, <span class="hljs-number">115</span>]],<br><br>       [[<span class="hljs-number">130</span>, <span class="hljs-number">131</span>, <span class="hljs-number">127</span>],<br>        [<span class="hljs-number">129</span>, <span class="hljs-number">130</span>, <span class="hljs-number">126</span>],<br>        [<span class="hljs-number">132</span>, <span class="hljs-number">133</span>, <span class="hljs-number">129</span>],<br>        ...,<br>        [<span class="hljs-number">130</span>, <span class="hljs-number">132</span>, <span class="hljs-number">126</span>],<br>        [<span class="hljs-number">128</span>, <span class="hljs-number">130</span>, <span class="hljs-number">124</span>],<br>        [<span class="hljs-number">124</span>, <span class="hljs-number">126</span>, <span class="hljs-number">120</span>]],<br><br>       ...,<br><br>       [[<span class="hljs-number">106</span>, <span class="hljs-number">113</span>, <span class="hljs-number">110</span>],<br>        [<span class="hljs-number">103</span>, <span class="hljs-number">110</span>, <span class="hljs-number">107</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">108</span>, <span class="hljs-number">105</span>],<br>        ...,<br>        [<span class="hljs-number">149</span>, <span class="hljs-number">154</span>, <span class="hljs-number">152</span>],<br>        [<span class="hljs-number">138</span>, <span class="hljs-number">143</span>, <span class="hljs-number">141</span>],<br>        [<span class="hljs-number">118</span>, <span class="hljs-number">124</span>, <span class="hljs-number">119</span>]],<br><br>       [[<span class="hljs-number">103</span>, <span class="hljs-number">108</span>, <span class="hljs-number">106</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        [<span class="hljs-number">100</span>, <span class="hljs-number">105</span>, <span class="hljs-number">103</span>],<br>        ...,<br>        [<span class="hljs-number">147</span>, <span class="hljs-number">152</span>, <span class="hljs-number">150</span>],<br>        [<span class="hljs-number">137</span>, <span class="hljs-number">142</span>, <span class="hljs-number">140</span>],<br>        [<span class="hljs-number">137</span>, <span class="hljs-number">143</span>, <span class="hljs-number">138</span>]],<br><br>       [[<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        ...,<br>        [<span class="hljs-number">150</span>, <span class="hljs-number">155</span>, <span class="hljs-number">153</span>],<br>        [<span class="hljs-number">126</span>, <span class="hljs-number">131</span>, <span class="hljs-number">129</span>],<br>        [<span class="hljs-number">134</span>, <span class="hljs-number">140</span>, <span class="hljs-number">135</span>]]], shape=(<span class="hljs-number">206</span>, <span class="hljs-number">239</span>, <span class="hljs-number">3</span>), dtype=uint8)<br>orig_shape: (<span class="hljs-number">206</span>, <span class="hljs-number">239</span>)<br>path: <span class="hljs-string">&#x27;C:\\Users\\Admin\\Desktop\\ultralytics-8.3.55\\img_1.jpg&#x27;</span><br>probs: <span class="hljs-literal">None</span><br>save_dir: <span class="hljs-string">&#x27;runs\\detect\\predict39&#x27;</span><br>speed: &#123;<span class="hljs-string">&#x27;preprocess&#x27;</span>: <span class="hljs-number">3.3502578735351562</span>, <span class="hljs-string">&#x27;inference&#x27;</span>: <span class="hljs-number">195.32537460327148</span>, <span class="hljs-string">&#x27;postprocess&#x27;</span>: <span class="hljs-number">0.9987354278564453</span>&#125;]<br></code></pre></td></tr></table></figure>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes)<br><span class="hljs-comment"># 数组内容为 boxes()</span><br><span class="hljs-comment"># boxes 中包含 name(当前pt包含的所有标签,这里的返回结果和上图的不是同一个模型，所以标签没有truck) orig_img(该图片/帧的像素的BGR) path(当前文件路径) save_dir(当前保存的文件目录) </span><br><span class="hljs-comment"># cls 包含了当前帧/图片识别到的所有标签的序号(对应了name中的序号顺序)</span><br><span class="hljs-comment"># conf 分别对应识别出该序号的可信度。</span><br><span class="hljs-comment"># xywh 则代表该识别出来的 左上角的 x y 以及对应的 w(宽度width)，h（高度height）</span><br><span class="hljs-comment"># xyxy 则是四个顶点的上左右下点位</span><br><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes.cls) <span class="hljs-comment">#可以进行输出</span><br>cls: tensor([<span class="hljs-number">0.</span>, <span class="hljs-number">9.</span>, <span class="hljs-number">0.</span>, <span class="hljs-number">2.</span>, <span class="hljs-number">2.</span>, <span class="hljs-number">7.</span>, <span class="hljs-number">2.</span>, <span class="hljs-number">5.</span>, <span class="hljs-number">2.</span>])<br>conf: tensor([<span class="hljs-number">0.7742</span>, <span class="hljs-number">0.7512</span>, <span class="hljs-number">0.7352</span>, <span class="hljs-number">0.5291</span>, <span class="hljs-number">0.4252</span>, <span class="hljs-number">0.3521</span>, <span class="hljs-number">0.3080</span>, <span class="hljs-number">0.2996</span>, <span class="hljs-number">0.2846</span>])<br>data: tensor([[<span class="hljs-number">4.4409e+02</span>, <span class="hljs-number">3.2972e+02</span>, <span class="hljs-number">4.7539e+02</span>, <span class="hljs-number">4.1390e+02</span>, <span class="hljs-number">7.7422e-01</span>, <span class="hljs-number">0.0000e+00</span>],<br>        [<span class="hljs-number">7.9411e+02</span>, <span class="hljs-number">2.5826e+00</span>, <span class="hljs-number">8.4300e+02</span>, <span class="hljs-number">1.2843e+02</span>, <span class="hljs-number">7.5115e-01</span>, <span class="hljs-number">9.0000e+00</span>],<br>        [<span class="hljs-number">3.6902e+02</span>, <span class="hljs-number">3.2709e+02</span>, <span class="hljs-number">4.0428e+02</span>, <span class="hljs-number">4.1387e+02</span>, <span class="hljs-number">7.3520e-01</span>, <span class="hljs-number">0.0000e+00</span>],<br>        [<span class="hljs-number">7.1047e+02</span>, <span class="hljs-number">3.3675e+02</span>, <span class="hljs-number">9.0717e+02</span>, <span class="hljs-number">3.9940e+02</span>, <span class="hljs-number">5.2906e-01</span>, <span class="hljs-number">2.0000e+00</span>],<br>        [<span class="hljs-number">8.9184e+02</span>, <span class="hljs-number">3.5024e+02</span>, <span class="hljs-number">9.3384e+02</span>, <span class="hljs-number">3.7179e+02</span>, <span class="hljs-number">4.2522e-01</span>, <span class="hljs-number">2.0000e+00</span>],<br>        [<span class="hljs-number">1.0327e+02</span>, <span class="hljs-number">2.9343e+02</span>, <span class="hljs-number">2.6267e+02</span>, <span class="hljs-number">3.6778e+02</span>, <span class="hljs-number">3.5206e-01</span>, <span class="hljs-number">7.0000e+00</span>],<br>        [<span class="hljs-number">9.0379e+02</span>, <span class="hljs-number">3.4303e+02</span>, <span class="hljs-number">1.0236e+03</span>, <span class="hljs-number">3.9628e+02</span>, <span class="hljs-number">3.0800e-01</span>, <span class="hljs-number">2.0000e+00</span>],<br>        [<span class="hljs-number">1.0447e+02</span>, <span class="hljs-number">2.9093e+02</span>, <span class="hljs-number">2.6505e+02</span>, <span class="hljs-number">3.6769e+02</span>, <span class="hljs-number">2.9959e-01</span>, <span class="hljs-number">5.0000e+00</span>],<br>        [<span class="hljs-number">6.6924e+02</span>, <span class="hljs-number">3.5639e+02</span>, <span class="hljs-number">7.3689e+02</span>, <span class="hljs-number">3.8833e+02</span>, <span class="hljs-number">2.8465e-01</span>, <span class="hljs-number">2.0000e+00</span>]])<br><span class="hljs-built_in">id</span>: <span class="hljs-literal">None</span><br>is_track: <span class="hljs-literal">False</span><br>orig_shape: (<span class="hljs-number">779</span>, <span class="hljs-number">1024</span>)<br>shape: torch.Size([<span class="hljs-number">9</span>, <span class="hljs-number">6</span>])<br>xywh: tensor([[<span class="hljs-number">459.7363</span>, <span class="hljs-number">371.8092</span>,  <span class="hljs-number">31.3003</span>,  <span class="hljs-number">84.1722</span>],<br>        [<span class="hljs-number">818.5564</span>,  <span class="hljs-number">65.5080</span>,  <span class="hljs-number">48.8840</span>, <span class="hljs-number">125.8507</span>],<br>        [<span class="hljs-number">386.6507</span>, <span class="hljs-number">370.4808</span>,  <span class="hljs-number">35.2653</span>,  <span class="hljs-number">86.7721</span>],<br>        [<span class="hljs-number">808.8193</span>, <span class="hljs-number">368.0722</span>, <span class="hljs-number">196.7037</span>,  <span class="hljs-number">62.6470</span>],<br>        [<span class="hljs-number">912.8385</span>, <span class="hljs-number">361.0144</span>,  <span class="hljs-number">42.0067</span>,  <span class="hljs-number">21.5456</span>],<br>        [<span class="hljs-number">182.9665</span>, <span class="hljs-number">330.6063</span>, <span class="hljs-number">159.4020</span>,  <span class="hljs-number">74.3427</span>],<br>        [<span class="hljs-number">963.7004</span>, <span class="hljs-number">369.6506</span>, <span class="hljs-number">119.8304</span>,  <span class="hljs-number">53.2505</span>],<br>        [<span class="hljs-number">184.7574</span>, <span class="hljs-number">329.3147</span>, <span class="hljs-number">160.5760</span>,  <span class="hljs-number">76.7594</span>],<br>        [<span class="hljs-number">703.0674</span>, <span class="hljs-number">372.3641</span>,  <span class="hljs-number">67.6462</span>,  <span class="hljs-number">31.9407</span>]])<br>xywhn: tensor([[<span class="hljs-number">0.4490</span>, <span class="hljs-number">0.4773</span>, <span class="hljs-number">0.0306</span>, <span class="hljs-number">0.1081</span>],<br>        [<span class="hljs-number">0.7994</span>, <span class="hljs-number">0.0841</span>, <span class="hljs-number">0.0477</span>, <span class="hljs-number">0.1616</span>],<br>        [<span class="hljs-number">0.3776</span>, <span class="hljs-number">0.4756</span>, <span class="hljs-number">0.0344</span>, <span class="hljs-number">0.1114</span>],<br>        [<span class="hljs-number">0.7899</span>, <span class="hljs-number">0.4725</span>, <span class="hljs-number">0.1921</span>, <span class="hljs-number">0.0804</span>],<br>        [<span class="hljs-number">0.8914</span>, <span class="hljs-number">0.4634</span>, <span class="hljs-number">0.0410</span>, <span class="hljs-number">0.0277</span>],<br>        [<span class="hljs-number">0.1787</span>, <span class="hljs-number">0.4244</span>, <span class="hljs-number">0.1557</span>, <span class="hljs-number">0.0954</span>],<br>        [<span class="hljs-number">0.9411</span>, <span class="hljs-number">0.4745</span>, <span class="hljs-number">0.1170</span>, <span class="hljs-number">0.0684</span>],<br>        [<span class="hljs-number">0.1804</span>, <span class="hljs-number">0.4227</span>, <span class="hljs-number">0.1568</span>, <span class="hljs-number">0.0985</span>],<br>        [<span class="hljs-number">0.6866</span>, <span class="hljs-number">0.4780</span>, <span class="hljs-number">0.0661</span>, <span class="hljs-number">0.0410</span>]])<br>xyxy: tensor([[ <span class="hljs-number">444.0861</span>,  <span class="hljs-number">329.7231</span>,  <span class="hljs-number">475.3864</span>,  <span class="hljs-number">413.8953</span>],<br>        [ <span class="hljs-number">794.1144</span>,    <span class="hljs-number">2.5826</span>,  <span class="hljs-number">842.9984</span>,  <span class="hljs-number">128.4333</span>],<br>        [ <span class="hljs-number">369.0181</span>,  <span class="hljs-number">327.0947</span>,  <span class="hljs-number">404.2834</span>,  <span class="hljs-number">413.8668</span>],<br>        [ <span class="hljs-number">710.4675</span>,  <span class="hljs-number">336.7487</span>,  <span class="hljs-number">907.1712</span>,  <span class="hljs-number">399.3957</span>],<br>        [ <span class="hljs-number">891.8351</span>,  <span class="hljs-number">350.2416</span>,  <span class="hljs-number">933.8418</span>,  <span class="hljs-number">371.7872</span>],<br>        [ <span class="hljs-number">103.2655</span>,  <span class="hljs-number">293.4350</span>,  <span class="hljs-number">262.6675</span>,  <span class="hljs-number">367.7776</span>],<br>        [ <span class="hljs-number">903.7852</span>,  <span class="hljs-number">343.0254</span>, <span class="hljs-number">1023.6156</span>,  <span class="hljs-number">396.2759</span>],<br>        [ <span class="hljs-number">104.4694</span>,  <span class="hljs-number">290.9350</span>,  <span class="hljs-number">265.0454</span>,  <span class="hljs-number">367.6944</span>],<br>        [ <span class="hljs-number">669.2443</span>,  <span class="hljs-number">356.3937</span>,  <span class="hljs-number">736.8905</span>,  <span class="hljs-number">388.3345</span>]])<br>xyxyn: tensor([[<span class="hljs-number">0.4337</span>, <span class="hljs-number">0.4233</span>, <span class="hljs-number">0.4642</span>, <span class="hljs-number">0.5313</span>],<br>        [<span class="hljs-number">0.7755</span>, <span class="hljs-number">0.0033</span>, <span class="hljs-number">0.8232</span>, <span class="hljs-number">0.1649</span>],<br>        [<span class="hljs-number">0.3604</span>, <span class="hljs-number">0.4199</span>, <span class="hljs-number">0.3948</span>, <span class="hljs-number">0.5313</span>],<br>        [<span class="hljs-number">0.6938</span>, <span class="hljs-number">0.4323</span>, <span class="hljs-number">0.8859</span>, <span class="hljs-number">0.5127</span>],<br>        [<span class="hljs-number">0.8709</span>, <span class="hljs-number">0.4496</span>, <span class="hljs-number">0.9120</span>, <span class="hljs-number">0.4773</span>],<br>        [<span class="hljs-number">0.1008</span>, <span class="hljs-number">0.3767</span>, <span class="hljs-number">0.2565</span>, <span class="hljs-number">0.4721</span>],<br>        [<span class="hljs-number">0.8826</span>, <span class="hljs-number">0.4403</span>, <span class="hljs-number">0.9996</span>, <span class="hljs-number">0.5087</span>],<br>        [<span class="hljs-number">0.1020</span>, <span class="hljs-number">0.3735</span>, <span class="hljs-number">0.2588</span>, <span class="hljs-number">0.4720</span>],<br>        [<span class="hljs-number">0.6536</span>, <span class="hljs-number">0.4575</span>, <span class="hljs-number">0.7196</span>, <span class="hljs-number">0.4985</span>]])<br></code></pre></td></tr></table></figure>
+<h5 id="返回结果的小tip"><a href="#返回结果的小tip" class="headerlink" title="返回结果的小tip"></a>返回结果的小tip</h5><p>在识别出一张图片的时候我经常会想，当前图片识别出来是否为空？是否有我想要的内容呢</p>
+<ol>
+<li>先判断当前图片识别出来是否为空<br>其实这个思路还是挺简单的<br>在返回结果的boxes中的clsz中可以看见当前识别出来的内容都有什么 只需要判断这个值是否为空即可 如果是空说明我就没有识别出任何值</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes.cls) <span class="hljs-comment"># tensor([0., 9., 0., 2., 2., 7., 2., 5., 2.])</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(result[<span class="hljs-number">0</span>].boxes.cls)) <span class="hljs-comment"># 9 </span><br><span class="hljs-comment"># 这里可以返回数组长度 = 9 说明识别出来一共九个标签 如果=0 那不就是说明为空 没有识别出来任何值</span><br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>判断识别标签中有没有自己想要的标签</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes.cls) <span class="hljs-comment"># tensor([0., 9., 0., 2., 2., 7., 2., 5., 2.])</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> result[<span class="hljs-number">0</span>].boxes.cls:<br>	<span class="hljs-keyword">if</span> (i==<span class="hljs-number">0</span>):<br>		<span class="hljs-built_in">print</span>(i,<span class="hljs-string">&quot;这是你要识别出来的标签&quot;</span>) <br><span class="hljs-comment"># 返回结果</span><br><span class="hljs-comment"># tensor(0.) 这是你要识别出来的标签</span><br><span class="hljs-comment"># tensor(0.) 这是你要识别出来的标签</span><br></code></pre></td></tr></table></figure>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>anaconda-anon-usage     0.4.4<br>archspec                0.2.3<br>boltons                 23.0.0<br>Brotli                  1.0.9<br>certifi                 2024.8.30<br>cffi                    1.17.1<br>charset-normalizer      3.3.2<br>colorama                0.4.6<br>conda                   24.9.2<br>conda-content-trust     0.2.0<br>conda-libmamba-solver   24.9.0<br>conda-package-handling  2.3.0<br>conda_package_streaming 0.10.0<br>cryptography            43.0.0<br>distro                  1.9.0<br>frozendict              2.4.2<br>idna                    3.7<br>jsonpatch               1.33<br>jsonpointer             2.1<br>libmambapy              1.5.8<br>menuinst                2.1.2<br>numpy                   2.3.5<br>packaging               24.1<br>pip                     24.2<br>platformdirs            3.10.0<br>pluggy                  1.0.0<br>pycosat                 0.6.6<br>pycparser               2.21<br>PyQt5                   5.15.11<br>PyQt5-Qt5               5.15.2<br>PyQt5_sip               12.18.0<br>PySocks                 1.7.1<br>requests                2.32.3<br>ruamel.yaml             0.18.6<br>ruamel.yaml.clib        0.2.8<br>setuptools              75.1.0<br>tqdm                    4.66.5<br>truststore              0.8.0<br>urllib3                 2.2.3<br>wheel                   0.44.0<br>win-inet-pton           1.1.0<br>zstandard               0.23.0</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/yolo/" class="print-no-link">#yolo</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>yolo初学记录1</div>
+      <div>http://example.com/2026/01/30/yolostudy/yolo学习1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 30, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/29/%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF/" title="职业技能大赛_网站技术">
+                        <span class="hidden-mobile">职业技能大赛_网站技术</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
