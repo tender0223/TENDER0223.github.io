@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en" data-default-color-scheme=auto>
+<html lang="cn" data-default-color-scheme=auto>
 
 
 
@@ -22,21 +22,21 @@
     <meta name="description" content="最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转以下代码均以python为例 介绍Yolo(You Only Look Once)是一种one-stage目标检测算法，即仅需要 “看” 一次就可以识别出图片中物体的class类别和边界">
 <meta property="og:type" content="article">
 <meta property="og:title" content="yolo初学记录1">
-<meta property="og:url" content="http://example.com/2026/01/30/yolostudy/yolo%E5%AD%A6%E4%B9%A01/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://tender0223.github.io/2026/01/30/yolostudy/yolo%E5%AD%A6%E4%B9%A01/index.html">
+<meta property="og:site_name" content="温柔目送的站点">
 <meta property="og:description" content="最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转以下代码均以python为例 介绍Yolo(You Only Look Once)是一种one-stage目标检测算法，即仅需要 “看” 一次就可以识别出图片中物体的class类别和边界">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/imgs/2026-01-29/wJ509I0jNUCe0mZe.png">
+<meta property="og:locale">
+<meta property="og:image" content="https://tender0223.github.io/imgs/2026-01-29/wJ509I0jNUCe0mZe.png">
 <meta property="article:published_time" content="2026-01-30T07:21:32.000Z">
 <meta property="article:modified_time" content="2026-01-30T09:41:33.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="yolo">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/imgs/2026-01-29/wJ509I0jNUCe0mZe.png">
+<meta name="twitter:image" content="https://tender0223.github.io/imgs/2026-01-29/wJ509I0jNUCe0mZe.png">
   
   
   
-  <title>yolo初学记录1 - Hexo</title>
+  <title>yolo初学记录1 - 温柔目送的站点</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -74,7 +74,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"tender0223.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -120,7 +120,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
-                <span>Home</span>
+                <span>Inicio</span>
               </a>
             </li>
           
@@ -132,7 +132,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
-                <span>Archives</span>
+                <span>Archivo</span>
               </a>
             </li>
           
@@ -144,7 +144,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
-                <span>Categories</span>
+                <span>Categorías</span>
               </a>
             </li>
           
@@ -156,7 +156,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
-                <span>Tags</span>
+                <span>Etiquetas</span>
               </a>
             </li>
           
@@ -168,7 +168,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
-                <span>About</span>
+                <span>Acerca</span>
               </a>
             </li>
           
@@ -207,7 +207,7 @@
               <a href="/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-home-fill"></i>
-                  <span>Home</span>
+                  <span>Inicio</span>
                 </div>
               </a>
             </div>
@@ -221,7 +221,7 @@
               <a href="/archives/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-archive-fill"></i>
-                  <span>Archives</span>
+                  <span>Archivo</span>
                 </div>
               </a>
             </div>
@@ -235,7 +235,7 @@
               <a href="/categories/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-category-fill"></i>
-                  <span>Categories</span>
+                  <span>Categorías</span>
                 </div>
               </a>
             </div>
@@ -249,7 +249,7 @@
               <a href="/tags/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-tags-fill"></i>
-                  <span>Tags</span>
+                  <span>Etiquetas</span>
                 </div>
               </a>
             </div>
@@ -263,7 +263,7 @@
               <a href="/about/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-user-fill"></i>
-                  <span>About</span>
+                  <span>Acerca</span>
                 </div>
               </a>
             </div>
@@ -274,19 +274,19 @@
             <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
               <div class="mobile-grid-item">
                 <i class="iconfont icon-search"></i>
-                <span>Search</span>
+                <span>Buscar</span>
               </div>
             </a>
           </div>
         
         
           <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
-               data-label-light="Light"
-               data-label-dark="Dark">
+               data-label-light="Claro"
+               data-label-dark="Oscuro">
             <a href="javascript:;" aria-label="Color Toggle">
               <div class="mobile-grid-item">
                 <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
-                <span id="mobile-color-toggle-label">Dark</span>
+                <span id="mobile-color-toggle-label">Oscuro</span>
               </div>
             </a>
           </div>
@@ -328,7 +328,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.8k words
+          7.8k palabras
         
       </span>
     
@@ -339,7 +339,7 @@
         
         
         
-          65 mins
+          65 minutos
         
       </span>
     
@@ -446,31 +446,31 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>yolo初学记录1</div>
-      <div>http://example.com/2026/01/30/yolostudy/yolo学习1/</div>
+      <div>https://tender0223.github.io/2026/01/30/yolostudy/yolo学习1/</div>
     </div>
     <div class="license-meta">
       
         <div class="license-meta-item">
-          <div>Author</div>
+          <div>Autor</div>
           <div>John Doe</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
-          <div>Posted on</div>
+          <div>Publicado el</div>
           <div>January 30, 2026</div>
         </div>
       
       
       
         <div class="license-meta-item">
-          <div>Licensed under</div>
+          <div>Licencia bajo</div>
           <div>
             
               
               
                 <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                  <span class="hint--top hint--rounded" aria-label="BY - Atribución">
                     <i class="iconfont icon-cc-by"></i>
                   </span>
                 </a>
@@ -496,7 +496,7 @@
                     
                       <a href="/2023/10/29/%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF/" title="职业技能大赛_网站技术">
                         <span class="hidden-mobile">职业技能大赛_网站技术</span>
-                        <span class="visible-mobile">Next</span>
+                        <span class="visible-mobile">Siguiente</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
                     
@@ -517,7 +517,7 @@
     <div id="toc">
   <p class="toc-header">
     <i class="iconfont icon-list"></i>
-    <span>Table of Contents</span>
+    <span>Tabla de Contenidos</span>
   </p>
   <div class="toc-body" id="toc-body"></div>
 </div>
@@ -573,7 +573,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Buscar</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -581,7 +581,7 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+          <label data-error="x" data-success="v" for="local-search-input">Palabra clave</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -823,7 +823,7 @@
   
 
   <noscript>
-    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+    <div class="noscript-warning">El blog funciona mejor con JavaScript habilitado</div>
   </noscript>
 </body>
 </html>
