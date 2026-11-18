@@ -1,0 +1,1038 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="温柔目送">
+  <meta name="keywords" content="博客, 技术, 学习">
+  
+    <meta name="description" content="一个免安装、不联网、双击即用的 Windows 绿色小工具。它把 PNG &#x2F; JPG &#x2F; BMP &#x2F; GIF 等常见图片转成标准 .ico 图标文件，支持一个文件内打包多种尺寸，转换结果可直接导入易语言使用。  一、它解决什么问题在 Windows 桌面开发和易语言项目里，程序图标、窗口图标、工具栏小图标往往需要同一张图的多个尺寸（16 &#x2F; 32 &amp;#x2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图片转 icon：把普通图片一键转成多尺寸 ICO 图标的桌面小工具">
+<meta property="og:url" content="https://tender0223.github.io/2026/11/18/%E5%9B%BE%E7%89%87%E8%BD%AC-icon%E6%8A%8A%E6%99%AE%E9%80%9A%E5%9B%BE%E7%89%87%E4%B8%80%E9%94%AE%E8%BD%AC%E6%88%90%E5%A4%9A%E5%B0%BA%E5%AF%B8-ico-%E5%9B%BE%E6%A0%87%E7%9A%84%E6%A1%8C%E9%9D%A2%E5%B0%8F%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="温柔目送的站点">
+<meta property="og:description" content="一个免安装、不联网、双击即用的 Windows 绿色小工具。它把 PNG &#x2F; JPG &#x2F; BMP &#x2F; GIF 等常见图片转成标准 .ico 图标文件，支持一个文件内打包多种尺寸，转换结果可直接导入易语言使用。  一、它解决什么问题在 Windows 桌面开发和易语言项目里，程序图标、窗口图标、工具栏小图标往往需要同一张图的多个尺寸（16 &#x2F; 32 &amp;#x2">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-11-18T08:13:00.000Z">
+<meta property="article:modified_time" content="2026-11-18T08:15:04.597Z">
+<meta property="article:author" content="温柔目送">
+<meta property="article:tag" content="AI项目程序">
+<meta property="article:tag" content="办公工具">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>图片转 icon：把普通图片一键转成多尺寸 ICO 图标的桌面小工具 - 温柔目送的站点</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"tender0223.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>温柔目送</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="图片转 icon：把普通图片一键转成多尺寸 ICO 图标的桌面小工具"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-11-18 16:13" pubdate>
+          2026年11月18日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">图片转 icon：把普通图片一键转成多尺寸 ICO 图标的桌面小工具</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p> 一个免安装、不联网、双击即用的 Windows 绿色小工具。它把 PNG &#x2F; JPG &#x2F; BMP &#x2F; GIF 等常见图片转成标准 <code>.ico</code> 图标文件，支持一个文件内打包多种尺寸，转换结果可直接导入易语言使用。</p>
+<hr>
+<h2 id="一、它解决什么问题"><a href="#一、它解决什么问题" class="headerlink" title="一、它解决什么问题"></a>一、它解决什么问题</h2><p>在 Windows 桌面开发和易语言项目里，程序图标、窗口图标、工具栏小图标往往需要<strong>同一张图的多个尺寸</strong>（16 &#x2F; 32 &#x2F; 48 &#x2F; 256……）。手工用图像软件逐个缩放、再合并成图标组，既繁琐又容易出错。</p>
+<p>这个工具要做的就是<strong>把这套流程压缩成三步</strong>：选图 → 勾尺寸 → 点转换。随后自动生成规范的图标文件，并打开输出目录，拿来即用。</p>
+<p>设计目标可以概括为四点：</p>
+<ul>
+<li><strong>零门槛</strong>：全中文界面 + 大按钮 + 术语解释，小白也能上手</li>
+<li><strong>一步到位</strong>：一次生成多尺寸标准图标组，系统按场合自动选用</li>
+<li><strong>绿色免安装</strong>：PyInstaller 打成单个 exe，不写系统目录、不联网</li>
+<li><strong>结果可见</strong>：转换区实时预览每个尺寸的成品效果</li>
+</ul>
+<hr>
+<h2 id="二、成品功能速览"><a href="#二、成品功能速览" class="headerlink" title="二、成品功能速览"></a>二、成品功能速览</h2><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>图片导入</td>
+<td>点击「选择图片」或<strong>直接把图片拖进窗口</strong>；支持 PNG &#x2F; JPG &#x2F; JPEG &#x2F; BMP &#x2F; GIF &#x2F; WebP &#x2F; TIFF，GIF 动图自动取第一帧</td>
+</tr>
+<tr>
+<td>尺寸选择</td>
+<td>7 档可选（16 &#x2F; 24 &#x2F; 32 &#x2F; 48 &#x2F; 64 &#x2F; 128 &#x2F; 256），可多选；内置「易语言窗口图标 &#x2F; 小图标 &#x2F; 全部尺寸」三个一键预设</td>
+</tr>
+<tr>
+<td>适配方式</td>
+<td>保持比例 + 填充、拉伸填满、裁剪居中三种；无透明通道的源图可选白 &#x2F; 黑 &#x2F; 透明背景</td>
+</tr>
+<tr>
+<td>导出方式</td>
+<td>① 多尺寸合并成一个 <code>.ico</code>（推荐）② 每尺寸单独 <code>.ico</code> ③ 每尺寸单独 <code>.png</code></td>
+</tr>
+<tr>
+<td>结果预览</td>
+<td>每个尺寸一张棋盘格透明背景的成品预览，并标注推荐用途</td>
+</tr>
+<tr>
+<td>智能提示</td>
+<td>小图放大模糊警告、参数未填校验、中文错误提示、状态栏指引</td>
+</tr>
+<tr>
+<td>输出位置</td>
+<td>默认存到源图目录下的「图标输出」文件夹；目录不可写时弹窗让用户自选</td>
+</tr>
+<tr>
+<td>效率细节</td>
+<td>后台线程转换不卡界面、转换完成自动打开输出文件夹、快捷键 <code>Ctrl + 回车</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、技术选型"><a href="#三、技术选型" class="headerlink" title="三、技术选型"></a>三、技术选型</h2><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>技术</th>
+<th>选择理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GUI</td>
+<td><strong>PySide6</strong>（Qt for Python）</td>
+<td>成熟的桌面 UI 框架，布局、拖放、线程信号机制完善，浅色主题样式可定制</td>
+</tr>
+<tr>
+<td>图像处理</td>
+<td><strong>Pillow</strong></td>
+<td>ICO 编解码、LANCZOS 高质量重采样、RGBA 合成一站搞定</td>
+</tr>
+<tr>
+<td>并发</td>
+<td><strong>QThread + Signal&#x2F;Slot</strong></td>
+<td>转换放后台线程，通过信号回传进度与结果，界面不假死</td>
+</tr>
+<tr>
+<td>打包分发</td>
+<td><strong>PyInstaller</strong></td>
+<td>打成单文件 exe，UPX 压缩，免安装绿色分发</td>
+</tr>
+<tr>
+<td>语言</td>
+<td>Python 3（类型注解 + dataclass）</td>
+<td>开发效率高，数据模型清晰，便于测试</td>
+</tr>
+</tbody></table>
+<p>整体是<strong>纯本地运行</strong>：不联网、不读写系统目录，所有文件操作都在用户可见的目录内。</p>
+<hr>
+<h2 id="四、界面与交互设计"><a href="#四、界面与交互设计" class="headerlink" title="四、界面与交互设计"></a>四、界面与交互设计</h2><p>界面采用暖色主调（<code>#B34700</code>）的现代浅色风格，圆角卡片 + 充足留白，从上到下分为六块：</p>
+<ol>
+<li><strong>标题栏</strong>：应用名 + 一句话简介 + 右上角「选择图片」主按钮</li>
+<li><strong>原图卡片</strong>：缩略图 + 文件名 &#x2F; 完整路径 &#x2F; 原尺寸 &#x2F; 格式（含是否带透明通道）&#x2F; 文件大小</li>
+<li><strong>尺寸卡片</strong>：尺寸多选框 + 快速预设按钮 + 放大警告</li>
+<li><strong>适配方式卡片</strong>：三种适配单选 + 背景色选择（源图自带透明通道时自动禁用并说明）</li>
+<li><strong>导出方式卡片</strong>：三种导出单选，每项带用途说明</li>
+<li><strong>转换按钮 + 结果卡片</strong>：大号主按钮触发，结果区网格展示各尺寸预览</li>
+</ol>
+<p>交互上有几个贴心点：</p>
+<ul>
+<li><strong>拖放导入</strong>：整个窗口都是拖放目标，图片拖进来即载入</li>
+<li><strong>上下文感知</strong>：源图有透明通道时，背景色选项自动禁用并提示「无需选择背景色」，避免用户困惑</li>
+<li><strong>即时反馈</strong>：勾选了超过源图尺寸的目标时，实时显示「放大了可能模糊」的警告，但不阻断转换</li>
+</ul>
+<hr>
+<h2 id="五、核心技术实现"><a href="#五、核心技术实现" class="headerlink" title="五、核心技术实现"></a>五、核心技术实现</h2><h3 id="5-1-ICO-文件的手工组装"><a href="#5-1-ICO-文件的手工组装" class="headerlink" title="5.1 ICO 文件的手工组装"></a>5.1 ICO 文件的手工组装</h3><p>这是整个项目技术含量最高的一环。Pillow 虽然能保存 ICO，但直接保存多尺寸并不够灵活。项目采用<strong>手工拼接标准 ICO 文件</strong>的方式：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nix">┌─────────────────────────────┐<br>│ ICONDIR  文件头 (<span class="hljs-number">6</span> 字节)     │  reserved<span class="hljs-operator">=</span><span class="hljs-number">0</span>, type<span class="hljs-operator">=</span><span class="hljs-number">1</span>, 图像数量 N<br>├─────────────────────────────┤<br>│ ICONDIRENTRY × N (各 <span class="hljs-number">16</span> 字节)│  宽高 <span class="hljs-symbol">/</span> 色数 <span class="hljs-symbol">/</span> 位平面 <span class="hljs-symbol">/</span> <span class="hljs-number">32</span>bpp <span class="hljs-symbol">/</span> 数据长度 <span class="hljs-symbol">/</span> 偏移<br>├─────────────────────────────┤<br>│ 图像数据块 × N              │  每帧单独编码后的图像字节<br>└─────────────────────────────┘<br></code></pre></td></tr></table></figure>
+
+<p>做法是：每个尺寸先用 Pillow 单独编码成一个单条目 ICO，跳过其前 22 字节（6 字节头 + 16 字节目录项）取出纯图像数据，再按 ICO 规范重新计算偏移、拼装目录项。几个关键细节：</p>
+<ul>
+<li>尺寸 ≥ 256 时，宽高字节填 <code>0</code>（ICO 规范中 <code>0</code> 表示 256）</li>
+<li>位深度统一写 <code>32bpp</code>，保留 Alpha 通道</li>
+<li>256×256 帧由 Pillow 自动采用 PNG 压缩，其余尺寸用带 Alpha 的 BMP</li>
+</ul>
+<p>这样生成的是<strong>标准图标组</strong>：Windows 和易语言在标题栏、任务栏、桌面等不同场合会自动挑最合适的尺寸显示。</p>
+<h3 id="5-2-三种适配算法"><a href="#5-2-三种适配算法" class="headerlink" title="5.2 三种适配算法"></a>5.2 三种适配算法</h3><p>源图长宽比各异，而图标必须是正方形，因此需要适配策略（<code>_adapt</code> 分派）：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>算法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>contain</code> 保持比例</td>
+<td>缩放比取 <code>min(目标/源宽, 目标/源高)</code>，居中粘贴到画布，空白处填充</td>
+<td>不变形、不裁切，可能有留白</td>
+</tr>
+<tr>
+<td><code>stretch</code> 拉伸填满</td>
+<td>直接 <code>resize</code> 到目标尺寸</td>
+<td>铺满，但可能拉伸变形</td>
+</tr>
+<tr>
+<td><code>cover</code> 裁剪居中</td>
+<td>缩放比取 <code>max(...)</code>，填满后居中裁剪</td>
+<td>铺满且不变形，但会裁掉边缘</td>
+</tr>
+</tbody></table>
+<p>重采样统一使用 <strong>LANCZOS</strong>，保证缩放质量。</p>
+<h3 id="5-3-透明通道处理"><a href="#5-3-透明通道处理" class="headerlink" title="5.3 透明通道处理"></a>5.3 透明通道处理</h3><ul>
+<li>载入时用 <code>_detect_alpha</code> 判断源图是否带有效透明信息（RGBA &#x2F; LA &#x2F; PA &#x2F; 带 transparency 的 P 模式）</li>
+<li>源图<strong>自带透明通道</strong>时：即使适配产生留白，也一律用透明填充，忽略背景色设置（界面同步禁用背景色选项）</li>
+<li>源图<strong>无透明通道</strong>时（如 JPG）：留白按用户所选白 &#x2F; 黑 &#x2F; 透明填充——默认垫白底，避免图标在浅色背景下发虚</li>
+</ul>
+<h3 id="5-4-后台线程与信号通信"><a href="#5-4-后台线程与信号通信" class="headerlink" title="5.4 后台线程与信号通信"></a>5.4 后台线程与信号通信</h3><p>转换流程跑在 <code>ConverterWorker(QThread)</code> 中：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dns">主线程                          工作线程<br>  │  点击「开始转换」              │<br>  ├──────── start<span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> ────────────►│ 读图 → 生成帧 → 写文件<br>  │                              │  progress.emit<span class="hljs-punctuation">(</span>文本<span class="hljs-punctuation">)</span><br>  │◄──────── 状态栏更新 ──────────┤<br>  │◄──────── finished<span class="hljs-punctuation">(</span>结果<span class="hljs-punctuation">)</span> ─────┤<br>  │  渲染预览 / 打开输出目录       │<br></code></pre></td></tr></table></figure>
+
+<p>通过 <code>progress</code> &#x2F; <code>finished</code> &#x2F; <code>failed</code> 三个信号回传进度、结果和错误，异常统一转成中文提示，既保证界面流畅，又避免线程崩溃导致程序退出。</p>
+<hr>
+<h2 id="六、模块结构"><a href="#六、模块结构" class="headerlink" title="六、模块结构"></a>六、模块结构</h2><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs nix">图片转icon<span class="hljs-symbol">/</span><br>├── 图片转icon.exe          <span class="hljs-comment"># 成品：PyInstaller 打包的单文件程序</span><br>├── 使用说明.txt            <span class="hljs-comment"># 面向最终用户的零基础说明书</span><br>└── src<span class="hljs-symbol">/</span><br>    ├── main.py             <span class="hljs-comment"># 入口：初始化 QApplication、应用图标、命令行传图</span><br>    ├── gui.py              <span class="hljs-comment"># 界面：卡片布局、交互逻辑、工作线程、结果预览</span><br>    ├── converter.py        <span class="hljs-comment"># 核心：图片读取、帧生成、ICO 组装、导出（纯逻辑，不依赖 GUI）</span><br>    ├── resources.py        <span class="hljs-comment"># 配置：文案、尺寸、预设、适配/导出模式、配色等常量</span><br>    └── app_icon.py         <span class="hljs-comment"># 应用图标：用 Pillow 绘制多尺寸 app.ico</span><br></code></pre></td></tr></table></figure>
+
+<p>分层思路清晰：<strong><code>converter.py</code> 不依赖任何 GUI 框架</strong>，可在工作线程里安全调用，也便于单独测试；界面文案与业务常量集中在 <code>resources.py</code>，改界面不用动逻辑。</p>
+<hr>
+<h2 id="七、如何使用"><a href="#七、如何使用" class="headerlink" title="七、如何使用"></a>七、如何使用</h2><ol>
+<li>双击 <code>图片转icon.exe</code> 打开软件</li>
+<li>把图片拖进窗口，或点右上角「选择图片」</li>
+<li>勾选需要的尺寸（默认已选 16 &#x2F; 32 &#x2F; 48，也可点预设一键设置）</li>
+<li>按需选择适配方式和导出方式（默认配置已适合绝大多数场景）</li>
+<li>点击「开始转换」，等待完成</li>
+<li>软件自动打开「图标输出」文件夹，成品文件就在里面</li>
+</ol>
+<p><strong>生成的文件在哪？</strong> 默认在原图片所在文件夹下的「图标输出」子目录；若该目录不可写，会弹窗让用户自选输出位置。</p>
+<p><strong>在易语言里怎么用？</strong> 选默认的「多尺寸合并成一个 <code>.ico</code>」，导出后在窗口属性 → 图标处导入该文件即可。</p>
+<hr>
+<h2 id="八、打包与分发"><a href="#八、打包与分发" class="headerlink" title="八、打包与分发"></a>八、打包与分发</h2><p>项目用 PyInstaller 打成<strong>单文件 exe</strong>，<code>build</code> 配置要点：</p>
+<ul>
+<li><code>console=False</code>：无黑色控制台窗口，纯 GUI 体验</li>
+<li><code>upx=True</code>：UPX 压缩减小体积</li>
+<li>通过 <code>--add-data</code> 把应用图标 <code>app.ico</code> 打进包内，冻结运行时从 <code>sys._MEIPASS</code> 读取</li>
+<li>入口 <code>main.py</code> 兼容命令行传参：把图片路径作为参数启动时自动载入，方便快速使用与自动化测试</li>
+</ul>
+<p>整个文件夹拷到任意 Windows 电脑即可运行，无需 Python 环境。构建产生的 <code>.build</code> &#x2F; <code>.tmp</code> 目录仅是中间产物，日常使用可安全删除。</p>
+<p>开发期还配套了 GUI 冒烟测试（offscreen 模式），覆盖拖放导入、预设、放大警告、完整转换、结果预览、参数校验等 19 项检查，全部通过。</p>
+<hr>
+<h2 id="九、小结"><a href="#九、小结" class="headerlink" title="九、小结"></a>九、小结</h2><p>这个小工具的价值不在于算法多复杂，而在于<strong>把一个重复繁琐的流程做得足够简单可靠</strong>：标准 ICO 图标组的正确组装、三种适配策略、透明通道的细致处理，都被封装在几个按钮背后。对目标用户（易语言 &#x2F; Windows 桌面开发者）来说，它把「一张图变成能直接导入的图标」这件事，压缩到了三次点击。</p>
+<hr>
+<p><em>项目技术栈：Python 3 · PySide6 · Pillow · PyInstaller</em></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="print-no-link">#AI项目程序</a>
+      
+        <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="print-no-link">#办公工具</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>图片转 icon：把普通图片一键转成多尺寸 ICO 图标的桌面小工具</div>
+      <div>https://tender0223.github.io/2026/11/18/图片转-icon把普通图片一键转成多尺寸-ico-图标的桌面小工具/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>温柔目送</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年11月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/11/18/meme%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%86%85%E6%A0%B8%E6%9B%B4%E6%96%B0/" title="MeMe浏览器的内核更新">
+                        <span class="hidden-mobile">MeMe浏览器的内核更新</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/busuanzi/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
