@@ -119,6 +119,12 @@
     <content type="html"><![CDATA[<h5 id="最近接触了不少的关于自动化的操作，包括不限制dm-乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转"><a href="#最近接触了不少的关于自动化的操作，包括不限制dm-乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转" class="headerlink" title="最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转"></a>最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转</h5><p>以下代码均以python为例</p><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Yolo(You Only Look Once)是一种one-stage目标检测算法，即仅需要 <strong>“看”</strong> 一次就可以识别出图片中物体的class类别和边界框。<strong>Yolov8</strong>是Ultralytics公司最新推出的<a href="https://so.csdn.net/so/search?q=Yolo%E7%B3%BB%E5%88%97&spm=1001.2101.3001.7020">Yolo系列</a>目标检测算法，可以用于图像分类、物体检测和实例分割等任务。（百度复制）</p><h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>miniconda<br>ultralytics</p><h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>yolo</p><ol><li><p>参数</p><ol><li>source：使用模型 yolo11nt.pt</li><li>task：task指的是要执行的具体任务类型，是以下之一 <code>[detect, segment, classify, pose, obb]</code>。如果未明确传递，YOLO 将尝试推断 <code>TASK</code>（可选）</li><li>mode：mode则指的是操作的模式，如训练、预测或验证，是以下之一 <code>[train, val, predict, export, track, benchmark]</code>（必需）默认为predict</li></ol></li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> ultralytics <span class="hljs-keyword">import</span> YOLO<br>yolo = YOLO(<span class="hljs-string">&quot;yolo.pt&quot;</span>,task=<span class="hljs-string">&quot;decect&quot;</span>)<br><span class="hljs-comment"># 都是可以的 一样的 因为yolo会自己判断需要怎么做 基本上默认都是detect</span><br>yolo = YOLO(<span class="hljs-string">&quot;yolo.pt&quot;</span>)<br><span class="hljs-comment"># 模型</span><br></code></pre></td></tr></table></figure><h3 id="训练-train"><a href="#训练-train" class="headerlink" title="训练 train"></a>训练 train</h3><ol><li>先自己准备好自己要训练的图片</li><li>准备好标注软件 这里我使用的是<a href="https://github.com/HumanSignal/labelImg">labelImg</a></li><li>准备好目录</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">datasets<br>|_ icon<br>|_ img<br>||__ train<br>||__ val<br>|_ label<br>|__ train<br>|__ val<br>需要进行训练的 放在 img&gt;train<br>需要训练完毕进行验证 放在 img&gt;val 注意 这里的文件图片不能一样 否则无法正确判断你的训练是否足够<br>labelimg标注完毕的标签也要分开放<br>放在训练对应的图片标签也要相应的放在 label&gt;train 中<br>放在训练完毕需要验证的图片对应放在 label&gt;val 中<br></code></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> ultralytics <span class="hljs-keyword">import</span> YOLO<br>yolo = YOLO(<span class="hljs-string">&quot;yolo.pt&quot;</span>)<br>yolo.train(data=<span class="hljs-string">&quot;yolo.yaml&quot;</span>,epochs=<span class="hljs-number">300</span>,workers=<span class="hljs-number">0</span>,batch=<span class="hljs-number">16</span>) <span class="hljs-comment">#开始运行之后就可以正常的训练了！</span><br><span class="hljs-comment"># 如果电脑出现问题导致中断，以下可以进行按照原先进行继续训练</span><br><span class="hljs-comment"># 出了错 会在runs目录中生成一个最新的train文件夹 在该文件夹中有两个pt文件 分别为</span><br><span class="hljs-comment"># 1. best.pt  为截止到结束时训练最好的模型</span><br><span class="hljs-comment"># 2. last.pt为截止的时候出现最后一个模型</span><br><span class="hljs-comment"># 我们采用截止的时候最后一个模型进行继续训练</span><br>yolo = YOLO(<span class="hljs-string">&quot;runs/train/last.pt&quot;</span>)<br>yolo.train(resume=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># train的参数</span><br><span class="hljs-comment"># data (str): 你要训练的文件</span><br><span class="hljs-comment"># epochs (int):你要训练的轮次 一般越大越好 具体得看你提供多少张图片 图片少 轮次大 则会提前训练我那比 轮次少图片多 则训练完也不会有很好的效果 建议300张图片 300轮+循环  </span><br><span class="hljs-comment"># batch_size (int): Batch size for training.  （未知）</span><br><span class="hljs-comment"># imgsz (int): Input image size.  （未知）</span><br><span class="hljs-comment"># device (str): Device to run training on (e.g., &#x27;cuda&#x27;, &#x27;cpu&#x27;). 选择cpu还是gpu 建议无脑cpu得了 </span><br><span class="hljs-comment"># workers (int): Number of worker threads for data loading.   （未知）</span><br><span class="hljs-comment"># optimizer (str): Optimizer to use for training.  （未知）</span><br><span class="hljs-comment"># lr0 (float): Initial learning rate.  （未知）</span><br><span class="hljs-comment"># patience (int): Epochs to wait for no observable improvement for early stopping of training.（未知）</span><br></code></pre></td></tr></table></figure><h4 id="yaml详解"><a href="#yaml详解" class="headerlink" title="yaml详解"></a>yaml详解</h4><p>在训练的时候需要提前准备好自己的yaml文件（该文件是官方有自己详细的文本的可以照抄改改路径即可 可以在<strong>ultralytics&#x2F;cfg&#x2F;datasets</strong>中去寻找不少官方自己提供的yaml文件）</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">path:</span> <span class="hljs-string">../datasets/african-wildlife</span> <span class="hljs-comment"># 这里填写你的文件夹 即./datasets/icon </span><br><span class="hljs-attr">train:</span> <span class="hljs-string">train/images</span> <span class="hljs-comment"># 要训练的图片的文件夹路径 path/img/train</span><br><span class="hljs-attr">val:</span> <span class="hljs-string">valid/images</span> <span class="hljs-comment"># 要验证的图片的文件夹路径 path/img/val</span><br><span class="hljs-comment"># test:  可以为空没事 </span><br>  <br><span class="hljs-comment"># Classes  这里是你用了多少个标签 一定要按照你标签的顺序 </span><br><span class="hljs-comment">#在labelimg中data文件夹里会有一个classes.txt的文本记录了你当前已经标注好的标签的顺序 按顺序依次排列</span><br><span class="hljs-comment">#因为在标记好的文本标签中会记录你当前图片是使用了哪一个序号进行的标记,如果这里对照有误则在训练的时候就也会出错！！</span><br><span class="hljs-attr">names:</span>   <br>  <span class="hljs-attr">0:</span> <span class="hljs-string">buffalo</span>  <br>  <span class="hljs-attr">1:</span> <span class="hljs-string">elephant</span>  <br>  <span class="hljs-attr">2:</span> <span class="hljs-string">rhino</span>  <br>  <span class="hljs-attr">3:</span> <span class="hljs-string">zebra</span>  <br></code></pre></td></tr></table></figure><p>在训练完毕之后 可以检查runs&#x2F;train目录中的图片</p><h3 id="预测-predict"><a href="#预测-predict" class="headerlink" title="预测 predict"></a>预测 predict</h3><p><strong>该模型即为当前yolo核心之一的功能</strong>（我认为的 另一个就是训练train 和导出）<br>可以对图像进行预测 并且给出中心点 坐标点 标记 可信度等等内容<br><img src="/imgs/2026-01-29/wJ509I0jNUCe0mZe.png" alt="输入图片说明"><br>左边为原图，右边则为已处理过的图片<br>这里并没有什么值得额外说明的</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 参数说明</span><br><span class="hljs-comment">#source (str | Path | int | PIL.Image | np.ndarray | torch.Tensor | List | Tuple) </span><br><span class="hljs-comment"># 文件路径/包含文件路径的数组or字典</span><br><span class="hljs-comment">#Returns:  </span><br><span class="hljs-comment"># (List[ultralytics.engine.results.Results])</span><br><span class="hljs-comment"># 返回一个数组 包含所有信息</span><br><span class="hljs-built_in">print</span>(result[0].boxes) <span class="hljs-comment"># boxes: ultralytics.engine.results.Boxes object </span><br></code></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs python">yolo = YOLO(<span class="hljs-string">&quot;best.pt&quot;</span>)  <span class="hljs-comment"># 使用刚刚训练好的pt文件</span><br>result = yolo.predict(<span class="hljs-string">&quot;1.jpg&quot;</span>,save=<span class="hljs-literal">True</span>)<br><span class="hljs-comment"># result = yolo(&quot;1.jpg&quot;,save=True) # 这里是有默认的 yolo默认使用predict </span><br><span class="hljs-comment"># source 1.jpg 这里的参数可以有很多 可以是一段视频 如1.mp4 可以是当前电脑的屏幕 = screen 也可以是当前摄像头 =0 如果要使用指定窗口那就得设计到窗口句柄的绑定问题了</span><br><span class="hljs-comment"># save 意义为是否保存该次的识别内容</span><br><span class="hljs-comment"># show=True            # 持续展示</span><br><span class="hljs-comment"># save=True,           # 保存结果</span><br><span class="hljs-comment"># save_txt=True,       # 保存标签文件</span><br><span class="hljs-comment"># save_conf=True,      # 保存置信度</span><br><span class="hljs-comment"># line_width=2,        # 边界框线宽</span><br><span class="hljs-comment"># stream=True,         # 流模式（减少延迟）</span><br><span class="hljs-comment"># classes=[0, 2]       # 只检测人(0)和车(2)</span><br>keypoints: <span class="hljs-literal">None</span><br>masks: <span class="hljs-literal">None</span><br>names: &#123;<span class="hljs-number">0</span>: <span class="hljs-string">&#x27;person&#x27;</span>,<span class="hljs-number">1</span>: <span class="hljs-string">&#x27;car&#x27;</span>&#125;<br>obb: <span class="hljs-literal">None</span><br>orig_img: array([[[<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        [<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        [<span class="hljs-number">134</span>, <span class="hljs-number">135</span>, <span class="hljs-number">131</span>],<br>        ...,<br>        [<span class="hljs-number">139</span>, <span class="hljs-number">140</span>, <span class="hljs-number">131</span>],<br>        [<span class="hljs-number">134</span>, <span class="hljs-number">135</span>, <span class="hljs-number">126</span>],<br>        [<span class="hljs-number">127</span>, <span class="hljs-number">128</span>, <span class="hljs-number">119</span>]],<br><br>       [[<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        [<span class="hljs-number">126</span>, <span class="hljs-number">127</span>, <span class="hljs-number">123</span>],<br>        [<span class="hljs-number">131</span>, <span class="hljs-number">132</span>, <span class="hljs-number">128</span>],<br>        ...,<br>        [<span class="hljs-number">135</span>, <span class="hljs-number">136</span>, <span class="hljs-number">127</span>],<br>        [<span class="hljs-number">130</span>, <span class="hljs-number">131</span>, <span class="hljs-number">122</span>],<br>        [<span class="hljs-number">123</span>, <span class="hljs-number">124</span>, <span class="hljs-number">115</span>]],<br><br>       [[<span class="hljs-number">130</span>, <span class="hljs-number">131</span>, <span class="hljs-number">127</span>],<br>        [<span class="hljs-number">129</span>, <span class="hljs-number">130</span>, <span class="hljs-number">126</span>],<br>        [<span class="hljs-number">132</span>, <span class="hljs-number">133</span>, <span class="hljs-number">129</span>],<br>        ...,<br>        [<span class="hljs-number">130</span>, <span class="hljs-number">132</span>, <span class="hljs-number">126</span>],<br>        [<span class="hljs-number">128</span>, <span class="hljs-number">130</span>, <span class="hljs-number">124</span>],<br>        [<span class="hljs-number">124</span>, <span class="hljs-number">126</span>, <span class="hljs-number">120</span>]],<br><br>       ...,<br><br>       [[<span class="hljs-number">106</span>, <span class="hljs-number">113</span>, <span class="hljs-number">110</span>],<br>        [<span class="hljs-number">103</span>, <span class="hljs-number">110</span>, <span class="hljs-number">107</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">108</span>, <span class="hljs-number">105</span>],<br>        ...,<br>        [<span class="hljs-number">149</span>, <span class="hljs-number">154</span>, <span class="hljs-number">152</span>],<br>        [<span class="hljs-number">138</span>, <span class="hljs-number">143</span>, <span class="hljs-number">141</span>],<br>        [<span class="hljs-number">118</span>, <span class="hljs-number">124</span>, <span class="hljs-number">119</span>]],<br><br>       [[<span class="hljs-number">103</span>, <span class="hljs-number">108</span>, <span class="hljs-number">106</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        [<span class="hljs-number">100</span>, <span class="hljs-number">105</span>, <span class="hljs-number">103</span>],<br>        ...,<br>        [<span class="hljs-number">147</span>, <span class="hljs-number">152</span>, <span class="hljs-number">150</span>],<br>        [<span class="hljs-number">137</span>, <span class="hljs-number">142</span>, <span class="hljs-number">140</span>],<br>        [<span class="hljs-number">137</span>, <span class="hljs-number">143</span>, <span class="hljs-number">138</span>]],<br><br>       [[<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        [<span class="hljs-number">101</span>, <span class="hljs-number">106</span>, <span class="hljs-number">104</span>],<br>        ...,<br>        [<span class="hljs-number">150</span>, <span class="hljs-number">155</span>, <span class="hljs-number">153</span>],<br>        [<span class="hljs-number">126</span>, <span class="hljs-number">131</span>, <span class="hljs-number">129</span>],<br>        [<span class="hljs-number">134</span>, <span class="hljs-number">140</span>, <span class="hljs-number">135</span>]]], shape=(<span class="hljs-number">206</span>, <span class="hljs-number">239</span>, <span class="hljs-number">3</span>), dtype=uint8)<br>orig_shape: (<span class="hljs-number">206</span>, <span class="hljs-number">239</span>)<br>path: <span class="hljs-string">&#x27;C:\\Users\\Admin\\Desktop\\ultralytics-8.3.55\\img_1.jpg&#x27;</span><br>probs: <span class="hljs-literal">None</span><br>save_dir: <span class="hljs-string">&#x27;runs\\detect\\predict39&#x27;</span><br>speed: &#123;<span class="hljs-string">&#x27;preprocess&#x27;</span>: <span class="hljs-number">3.3502578735351562</span>, <span class="hljs-string">&#x27;inference&#x27;</span>: <span class="hljs-number">195.32537460327148</span>, <span class="hljs-string">&#x27;postprocess&#x27;</span>: <span class="hljs-number">0.9987354278564453</span>&#125;]<br></code></pre></td></tr></table></figure><h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes)<br><span class="hljs-comment"># 数组内容为 boxes()</span><br><span class="hljs-comment"># boxes 中包含 name(当前pt包含的所有标签,这里的返回结果和上图的不是同一个模型，所以标签没有truck) orig_img(该图片/帧的像素的BGR) path(当前文件路径) save_dir(当前保存的文件目录) </span><br><span class="hljs-comment"># cls 包含了当前帧/图片识别到的所有标签的序号(对应了name中的序号顺序)</span><br><span class="hljs-comment"># conf 分别对应识别出该序号的可信度。</span><br><span class="hljs-comment"># xywh 则代表该识别出来的 左上角的 x y 以及对应的 w(宽度width)，h（高度height）</span><br><span class="hljs-comment"># xyxy 则是四个顶点的上左右下点位</span><br><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes.cls) <span class="hljs-comment">#可以进行输出</span><br>cls: tensor([<span class="hljs-number">0.</span>, <span class="hljs-number">9.</span>, <span class="hljs-number">0.</span>, <span class="hljs-number">2.</span>, <span class="hljs-number">2.</span>, <span class="hljs-number">7.</span>, <span class="hljs-number">2.</span>, <span class="hljs-number">5.</span>, <span class="hljs-number">2.</span>])<br>conf: tensor([<span class="hljs-number">0.7742</span>, <span class="hljs-number">0.7512</span>, <span class="hljs-number">0.7352</span>, <span class="hljs-number">0.5291</span>, <span class="hljs-number">0.4252</span>, <span class="hljs-number">0.3521</span>, <span class="hljs-number">0.3080</span>, <span class="hljs-number">0.2996</span>, <span class="hljs-number">0.2846</span>])<br>data: tensor([[<span class="hljs-number">4.4409e+02</span>, <span class="hljs-number">3.2972e+02</span>, <span class="hljs-number">4.7539e+02</span>, <span class="hljs-number">4.1390e+02</span>, <span class="hljs-number">7.7422e-01</span>, <span class="hljs-number">0.0000e+00</span>],<br>        [<span class="hljs-number">7.9411e+02</span>, <span class="hljs-number">2.5826e+00</span>, <span class="hljs-number">8.4300e+02</span>, <span class="hljs-number">1.2843e+02</span>, <span class="hljs-number">7.5115e-01</span>, <span class="hljs-number">9.0000e+00</span>],<br>        [<span class="hljs-number">3.6902e+02</span>, <span class="hljs-number">3.2709e+02</span>, <span class="hljs-number">4.0428e+02</span>, <span class="hljs-number">4.1387e+02</span>, <span class="hljs-number">7.3520e-01</span>, <span class="hljs-number">0.0000e+00</span>],<br>        [<span class="hljs-number">7.1047e+02</span>, <span class="hljs-number">3.3675e+02</span>, <span class="hljs-number">9.0717e+02</span>, <span class="hljs-number">3.9940e+02</span>, <span class="hljs-number">5.2906e-01</span>, <span class="hljs-number">2.0000e+00</span>],<br>        [<span class="hljs-number">8.9184e+02</span>, <span class="hljs-number">3.5024e+02</span>, <span class="hljs-number">9.3384e+02</span>, <span class="hljs-number">3.7179e+02</span>, <span class="hljs-number">4.2522e-01</span>, <span class="hljs-number">2.0000e+00</span>],<br>        [<span class="hljs-number">1.0327e+02</span>, <span class="hljs-number">2.9343e+02</span>, <span class="hljs-number">2.6267e+02</span>, <span class="hljs-number">3.6778e+02</span>, <span class="hljs-number">3.5206e-01</span>, <span class="hljs-number">7.0000e+00</span>],<br>        [<span class="hljs-number">9.0379e+02</span>, <span class="hljs-number">3.4303e+02</span>, <span class="hljs-number">1.0236e+03</span>, <span class="hljs-number">3.9628e+02</span>, <span class="hljs-number">3.0800e-01</span>, <span class="hljs-number">2.0000e+00</span>],<br>        [<span class="hljs-number">1.0447e+02</span>, <span class="hljs-number">2.9093e+02</span>, <span class="hljs-number">2.6505e+02</span>, <span class="hljs-number">3.6769e+02</span>, <span class="hljs-number">2.9959e-01</span>, <span class="hljs-number">5.0000e+00</span>],<br>        [<span class="hljs-number">6.6924e+02</span>, <span class="hljs-number">3.5639e+02</span>, <span class="hljs-number">7.3689e+02</span>, <span class="hljs-number">3.8833e+02</span>, <span class="hljs-number">2.8465e-01</span>, <span class="hljs-number">2.0000e+00</span>]])<br><span class="hljs-built_in">id</span>: <span class="hljs-literal">None</span><br>is_track: <span class="hljs-literal">False</span><br>orig_shape: (<span class="hljs-number">779</span>, <span class="hljs-number">1024</span>)<br>shape: torch.Size([<span class="hljs-number">9</span>, <span class="hljs-number">6</span>])<br>xywh: tensor([[<span class="hljs-number">459.7363</span>, <span class="hljs-number">371.8092</span>,  <span class="hljs-number">31.3003</span>,  <span class="hljs-number">84.1722</span>],<br>        [<span class="hljs-number">818.5564</span>,  <span class="hljs-number">65.5080</span>,  <span class="hljs-number">48.8840</span>, <span class="hljs-number">125.8507</span>],<br>        [<span class="hljs-number">386.6507</span>, <span class="hljs-number">370.4808</span>,  <span class="hljs-number">35.2653</span>,  <span class="hljs-number">86.7721</span>],<br>        [<span class="hljs-number">808.8193</span>, <span class="hljs-number">368.0722</span>, <span class="hljs-number">196.7037</span>,  <span class="hljs-number">62.6470</span>],<br>        [<span class="hljs-number">912.8385</span>, <span class="hljs-number">361.0144</span>,  <span class="hljs-number">42.0067</span>,  <span class="hljs-number">21.5456</span>],<br>        [<span class="hljs-number">182.9665</span>, <span class="hljs-number">330.6063</span>, <span class="hljs-number">159.4020</span>,  <span class="hljs-number">74.3427</span>],<br>        [<span class="hljs-number">963.7004</span>, <span class="hljs-number">369.6506</span>, <span class="hljs-number">119.8304</span>,  <span class="hljs-number">53.2505</span>],<br>        [<span class="hljs-number">184.7574</span>, <span class="hljs-number">329.3147</span>, <span class="hljs-number">160.5760</span>,  <span class="hljs-number">76.7594</span>],<br>        [<span class="hljs-number">703.0674</span>, <span class="hljs-number">372.3641</span>,  <span class="hljs-number">67.6462</span>,  <span class="hljs-number">31.9407</span>]])<br>xywhn: tensor([[<span class="hljs-number">0.4490</span>, <span class="hljs-number">0.4773</span>, <span class="hljs-number">0.0306</span>, <span class="hljs-number">0.1081</span>],<br>        [<span class="hljs-number">0.7994</span>, <span class="hljs-number">0.0841</span>, <span class="hljs-number">0.0477</span>, <span class="hljs-number">0.1616</span>],<br>        [<span class="hljs-number">0.3776</span>, <span class="hljs-number">0.4756</span>, <span class="hljs-number">0.0344</span>, <span class="hljs-number">0.1114</span>],<br>        [<span class="hljs-number">0.7899</span>, <span class="hljs-number">0.4725</span>, <span class="hljs-number">0.1921</span>, <span class="hljs-number">0.0804</span>],<br>        [<span class="hljs-number">0.8914</span>, <span class="hljs-number">0.4634</span>, <span class="hljs-number">0.0410</span>, <span class="hljs-number">0.0277</span>],<br>        [<span class="hljs-number">0.1787</span>, <span class="hljs-number">0.4244</span>, <span class="hljs-number">0.1557</span>, <span class="hljs-number">0.0954</span>],<br>        [<span class="hljs-number">0.9411</span>, <span class="hljs-number">0.4745</span>, <span class="hljs-number">0.1170</span>, <span class="hljs-number">0.0684</span>],<br>        [<span class="hljs-number">0.1804</span>, <span class="hljs-number">0.4227</span>, <span class="hljs-number">0.1568</span>, <span class="hljs-number">0.0985</span>],<br>        [<span class="hljs-number">0.6866</span>, <span class="hljs-number">0.4780</span>, <span class="hljs-number">0.0661</span>, <span class="hljs-number">0.0410</span>]])<br>xyxy: tensor([[ <span class="hljs-number">444.0861</span>,  <span class="hljs-number">329.7231</span>,  <span class="hljs-number">475.3864</span>,  <span class="hljs-number">413.8953</span>],<br>        [ <span class="hljs-number">794.1144</span>,    <span class="hljs-number">2.5826</span>,  <span class="hljs-number">842.9984</span>,  <span class="hljs-number">128.4333</span>],<br>        [ <span class="hljs-number">369.0181</span>,  <span class="hljs-number">327.0947</span>,  <span class="hljs-number">404.2834</span>,  <span class="hljs-number">413.8668</span>],<br>        [ <span class="hljs-number">710.4675</span>,  <span class="hljs-number">336.7487</span>,  <span class="hljs-number">907.1712</span>,  <span class="hljs-number">399.3957</span>],<br>        [ <span class="hljs-number">891.8351</span>,  <span class="hljs-number">350.2416</span>,  <span class="hljs-number">933.8418</span>,  <span class="hljs-number">371.7872</span>],<br>        [ <span class="hljs-number">103.2655</span>,  <span class="hljs-number">293.4350</span>,  <span class="hljs-number">262.6675</span>,  <span class="hljs-number">367.7776</span>],<br>        [ <span class="hljs-number">903.7852</span>,  <span class="hljs-number">343.0254</span>, <span class="hljs-number">1023.6156</span>,  <span class="hljs-number">396.2759</span>],<br>        [ <span class="hljs-number">104.4694</span>,  <span class="hljs-number">290.9350</span>,  <span class="hljs-number">265.0454</span>,  <span class="hljs-number">367.6944</span>],<br>        [ <span class="hljs-number">669.2443</span>,  <span class="hljs-number">356.3937</span>,  <span class="hljs-number">736.8905</span>,  <span class="hljs-number">388.3345</span>]])<br>xyxyn: tensor([[<span class="hljs-number">0.4337</span>, <span class="hljs-number">0.4233</span>, <span class="hljs-number">0.4642</span>, <span class="hljs-number">0.5313</span>],<br>        [<span class="hljs-number">0.7755</span>, <span class="hljs-number">0.0033</span>, <span class="hljs-number">0.8232</span>, <span class="hljs-number">0.1649</span>],<br>        [<span class="hljs-number">0.3604</span>, <span class="hljs-number">0.4199</span>, <span class="hljs-number">0.3948</span>, <span class="hljs-number">0.5313</span>],<br>        [<span class="hljs-number">0.6938</span>, <span class="hljs-number">0.4323</span>, <span class="hljs-number">0.8859</span>, <span class="hljs-number">0.5127</span>],<br>        [<span class="hljs-number">0.8709</span>, <span class="hljs-number">0.4496</span>, <span class="hljs-number">0.9120</span>, <span class="hljs-number">0.4773</span>],<br>        [<span class="hljs-number">0.1008</span>, <span class="hljs-number">0.3767</span>, <span class="hljs-number">0.2565</span>, <span class="hljs-number">0.4721</span>],<br>        [<span class="hljs-number">0.8826</span>, <span class="hljs-number">0.4403</span>, <span class="hljs-number">0.9996</span>, <span class="hljs-number">0.5087</span>],<br>        [<span class="hljs-number">0.1020</span>, <span class="hljs-number">0.3735</span>, <span class="hljs-number">0.2588</span>, <span class="hljs-number">0.4720</span>],<br>        [<span class="hljs-number">0.6536</span>, <span class="hljs-number">0.4575</span>, <span class="hljs-number">0.7196</span>, <span class="hljs-number">0.4985</span>]])<br></code></pre></td></tr></table></figure><h5 id="返回结果的小tip"><a href="#返回结果的小tip" class="headerlink" title="返回结果的小tip"></a>返回结果的小tip</h5><p>在识别出一张图片的时候我经常会想，当前图片识别出来是否为空？是否有我想要的内容呢</p><ol><li>先判断当前图片识别出来是否为空<br>其实这个思路还是挺简单的<br>在返回结果的boxes中的clsz中可以看见当前识别出来的内容都有什么 只需要判断这个值是否为空即可 如果是空说明我就没有识别出任何值</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes.cls) <span class="hljs-comment"># tensor([0., 9., 0., 2., 2., 7., 2., 5., 2.])</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(result[<span class="hljs-number">0</span>].boxes.cls)) <span class="hljs-comment"># 9 </span><br><span class="hljs-comment"># 这里可以返回数组长度 = 9 说明识别出来一共九个标签 如果=0 那不就是说明为空 没有识别出来任何值</span><br></code></pre></td></tr></table></figure><ol><li>判断识别标签中有没有自己想要的标签</li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(result[<span class="hljs-number">0</span>].boxes.cls) <span class="hljs-comment"># tensor([0., 9., 0., 2., 2., 7., 2., 5., 2.])</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> result[<span class="hljs-number">0</span>].boxes.cls:<br><span class="hljs-keyword">if</span> (i==<span class="hljs-number">0</span>):<br><span class="hljs-built_in">print</span>(i,<span class="hljs-string">&quot;这是你要识别出来的标签&quot;</span>) <br><span class="hljs-comment"># 返回结果</span><br><span class="hljs-comment"># tensor(0.) 这是你要识别出来的标签</span><br><span class="hljs-comment"># tensor(0.) 这是你要识别出来的标签</span><br></code></pre></td></tr></table></figure><h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>anaconda-anon-usage 0.4.4<br>archspec 0.2.3<br>boltons 23.0.0<br>Brotli 1.0.9<br>certifi 2024.8.30<br>cffi 1.17.1<br>charset-normalizer 3.3.2<br>colorama 0.4.6<br>conda 24.9.2<br>conda-content-trust 0.2.0<br>conda-libmamba-solver 24.9.0<br>conda-package-handling 2.3.0<br>conda_package_streaming 0.10.0<br>cryptography 43.0.0<br>distro 1.9.0<br>frozendict 2.4.2<br>idna 3.7<br>jsonpatch 1.33<br>jsonpointer 2.1<br>libmambapy 1.5.8<br>menuinst 2.1.2<br>numpy 2.3.5<br>packaging 24.1<br>pip 24.2<br>platformdirs 3.10.0<br>pluggy 1.0.0<br>pycosat 0.6.6<br>pycparser 2.21<br>PyQt5 5.15.11<br>PyQt5-Qt5 5.15.2<br>PyQt5_sip 12.18.0<br>PySocks 1.7.1<br>requests 2.32.3<br>ruamel.yaml 0.18.6<br>ruamel.yaml.clib 0.2.8<br>setuptools 75.1.0<br>tqdm 4.66.5<br>truststore 0.8.0<br>urllib3 2.2.3<br>wheel 0.44.0<br>win-inet-pton 1.1.0<br>zstandard 0.23.0</p>]]></content>
     
     
+    <categories>
+      
+      <category>yolo</category>
+      
+    </categories>
+    
     
     <tags>
       
@@ -140,8 +146,6 @@
     
     <categories>
       
-      <category>作品</category>
-      
       <category>职业技能大赛_网站技术</category>
       
     </categories>
@@ -149,7 +153,9 @@
     
     <tags>
       
-      <tag>比赛作品</tag>
+      <tag>作品</tag>
+      
+      <tag>职业技能大赛_网站技术</tag>
       
     </tags>
     
@@ -168,8 +174,6 @@
     <categories>
       
       <category>爬虫</category>
-      
-      <category>实战</category>
       
     </categories>
     
@@ -196,8 +200,6 @@
       
       <category>爬虫</category>
       
-      <category>实战</category>
-      
     </categories>
     
     
@@ -222,8 +224,6 @@
     <categories>
       
       <category>爬虫</category>
-      
-      <category>实战</category>
       
     </categories>
     
@@ -252,12 +252,18 @@
       
       <category>WIFI_killer</category>
       
+      <category>硬件</category>
+      
     </categories>
     
     
     <tags>
       
       <tag>硬件</tag>
+      
+      <tag>DIY</tag>
+      
+      <tag>WIFI_killer</tag>
       
     </tags>
     
@@ -277,10 +283,14 @@
       
       <category>爬虫</category>
       
-      <category>反爬</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -298,10 +308,14 @@
       
       <category>爬虫</category>
       
-      <category>自动化实战</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -319,10 +333,14 @@
       
       <category>爬虫</category>
       
-      <category>自动化操作</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -340,10 +358,14 @@
       
       <category>爬虫</category>
       
-      <category>自动化操作</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -361,10 +383,14 @@
       
       <category>爬虫</category>
       
-      <category>线程和进程</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -382,10 +408,14 @@
       
       <category>爬虫</category>
       
-      <category>代理</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -403,10 +433,14 @@
       
       <category>爬虫</category>
       
-      <category>实战</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -420,6 +454,18 @@
     <content type="html"><![CDATA[<p>爬虫会被分成几个库类型 去完成不同的事件内容</p><ol><li>请求库<br>requests<br>urllib<br>selenium<br>aiohttp</li><li>解析库<br>beautifulSoup<br>lxml<br>re<br>pyquery<br>tesserocr 没学 不清楚 是用来解决验证码</li><li>存储库 与数据库交互<br>pymysql 一个纯 Python 实现的 MySQL 客户端操作库。<br>pymongo 一个用于直接连接 mongodb 数据库进行查询操作的库。</li><li>爬虫框架 不过我也没咋用过框架 都是纯手写 后面确实打算试试框架 不然每次都要写很多 （虽然也不是很多） 我就很累了<br>Scrapy：很强大的爬虫框架，可以满足简单的页面爬取（比如可以明确获知url pattern的情况）。用这个框架可以轻松爬下来如亚马逊商品信息之类的数据。但是对于稍微复杂一点的页面，如 weibo 的页面信息，这个框架就满足不了需求了。<br>Crawley：高速爬取对应网站的内容，支持关系和非关系数据库，数据可以导出为 JSON、XML 等。<br>Portia：可视化爬取网页内容。<br>newspaper：提取新闻、文章以及内容分析。<br>python-goose：java 写的文章提取工具。<br>cola：一个分布式爬虫框架。项目整体设计有点糟，模块间耦合度较高。</li></ol><p>Web框架</p><p>flask：轻量级的 web 服务程序，简单，易用，灵活，主要来做一些 API 服务。做代理时可能会用到。<br>django：一个 web 服务器框架，提供了一个完整的后台管理，引擎、接口等，使用它可做一个完整网站。</p>]]></content>
     
     
+    <categories>
+      
+      <category>爬虫</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -437,10 +483,14 @@
       
       <category>爬虫</category>
       
-      <category>信息内容的获取方式——re正则</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -457,8 +507,6 @@
     <categories>
       
       <category>爬虫</category>
-      
-      <category>实战</category>
       
     </categories>
     
@@ -485,10 +533,14 @@
       
       <category>爬虫</category>
       
-      <category>信息内容的获取方式——bs4</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -505,8 +557,6 @@
     <categories>
       
       <category>爬虫</category>
-      
-      <category>实战</category>
       
     </categories>
     
@@ -533,10 +583,14 @@
       
       <category>爬虫</category>
       
-      <category>信息内容的获取方式-xpath</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -554,10 +608,14 @@
       
       <category>爬虫</category>
       
-      <category>请求的发送</category>
-      
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -568,38 +626,21 @@
     <link href="/2023/09/03/%E7%88%AC%E8%99%AB/%E6%B3%A8%E6%84%8F%E7%82%B9/"/>
     <url>/2023/09/03/%E7%88%AC%E8%99%AB/%E6%B3%A8%E6%84%8F%E7%82%B9/</url>
     
-    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本片文章用来记录写者在使用爬虫中遇到的一些基础情况，收录尚且不全，如有问题或疑问需要补充或修改，请联系笔者的邮箱 <a href="mailto:&#108;&#108;&#105;&#x7a;&#104;&#x78;&#x75;&#x37;&#56;&#x39;&#x40;&#49;&#x36;&#51;&#46;&#99;&#x6f;&#109;">llizhxu789@163.com</a></p><h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><ol><li><p>请求头</p><ol><li><p>这个东西其实很尴尬，全看一些网站的检测是否严格，也看你爬取的地方 是否合规了，先说明：请求头的存在原本你通过爬虫去发送给服务器的请求，变成了伪装成了浏览器去发送给服务器的请求，本质上没啥差别，都是你发送了请求，去获取服务器响应罢了，就是一个是直接很直白的说：我是爬虫，我请求你的数据，你给我数据，一个是很委婉的说：我是浏览器（os：其实我是爬虫），我来请求你的数据了，麻烦你给我请求的数据</p></li><li><p>请求头书写起来也是比较方便简单的</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">headers = &#123;<span class="hljs-string">&quot;User-Agent&quot;</span>:<span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69&quot;</span>&#125;<br><br>后面直接在 request中引用就行如<br><br>```PY<br>resp = request.get(url,headers=headers)<br></code></pre></td></tr></table></figure></li></ol></li><li><p>请求的关闭</p><ol><li><p>在你代码运行完毕之后你要学会自己关闭自己的运行的爬虫，这样会结束这段代码，减少cpu运行的压力，释放不必要的运行内存以免造成不必要的资源浪费</p></li><li><p>使用起来也是非常方便的 在代码末尾 仅仅需要添加一段 。。. close()即可</p></li><li><p>实例:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">response = requests.get(url,headers)<br><span class="hljs-built_in">print</span>(...)<br><span class="hljs-comment"># 已经关闭了</span><br>response.close()<br></code></pre></td></tr></table></figure></li></ol></li><li><p>问题答疑和解决，提问</p><ol><li>strip有什么用<br>进行对获取的字符串进行删除<br>例 ：<br>ss &#x3D; ‘我的电话是18827038***，也是微信号，\n 请加入，谢谢\n\n\n’<br>print(ss.replace(‘\n’))<br>我的电话是18827038***，也是微信号， 请加入，谢谢</li><li>replace的作用 和 strip 一样 用法类似<br>对获取的字符串进行替换<br>例<br>ss &#x3D; ‘我的电话是18827038***，也是微信号，\n 请加入，谢谢\n\n\n’<br>print(ss.replace(‘\n’, ‘1’))<br>我的电话是18827038***，也是微信号，1 请加入，谢谢111</li><li>下载的图片设定成已排除当下载大量的图片 文本 内容的时候 需要将文件夹标记为 已排除<br>这样做的原因是 增加一个东西 pycharm会进行一个检索 将图片进行一个屏蔽检索 会减少pycharm的运行检索的时间</li></ol></li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本片文章用来记录写者在使用爬虫中遇到的一些基础情况，收录尚且不全，如有问题或疑问需要补充或修改，请联系笔者的邮箱 <a href="mailto:&#108;&#108;&#105;&#122;&#104;&#120;&#117;&#x37;&#x38;&#57;&#64;&#x31;&#54;&#x33;&#46;&#99;&#x6f;&#109;">llizhxu789@163.com</a></p><h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><ol><li><p>请求头</p><ol><li><p>这个东西其实很尴尬，全看一些网站的检测是否严格，也看你爬取的地方 是否合规了，先说明：请求头的存在原本你通过爬虫去发送给服务器的请求，变成了伪装成了浏览器去发送给服务器的请求，本质上没啥差别，都是你发送了请求，去获取服务器响应罢了，就是一个是直接很直白的说：我是爬虫，我请求你的数据，你给我数据，一个是很委婉的说：我是浏览器（os：其实我是爬虫），我来请求你的数据了，麻烦你给我请求的数据</p></li><li><p>请求头书写起来也是比较方便简单的</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">headers = &#123;<span class="hljs-string">&quot;User-Agent&quot;</span>:<span class="hljs-string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69&quot;</span>&#125;<br><br>后面直接在 request中引用就行如<br><br>```PY<br>resp = request.get(url,headers=headers)<br></code></pre></td></tr></table></figure></li></ol></li><li><p>请求的关闭</p><ol><li><p>在你代码运行完毕之后你要学会自己关闭自己的运行的爬虫，这样会结束这段代码，减少cpu运行的压力，释放不必要的运行内存以免造成不必要的资源浪费</p></li><li><p>使用起来也是非常方便的 在代码末尾 仅仅需要添加一段 。。. close()即可</p></li><li><p>实例:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">response = requests.get(url,headers)<br><span class="hljs-built_in">print</span>(...)<br><span class="hljs-comment"># 已经关闭了</span><br>response.close()<br></code></pre></td></tr></table></figure></li></ol></li><li><p>问题答疑和解决，提问</p><ol><li>strip有什么用<br>进行对获取的字符串进行删除<br>例 ：<br>ss &#x3D; ‘我的电话是18827038***，也是微信号，\n 请加入，谢谢\n\n\n’<br>print(ss.replace(‘\n’))<br>我的电话是18827038***，也是微信号， 请加入，谢谢</li><li>replace的作用 和 strip 一样 用法类似<br>对获取的字符串进行替换<br>例<br>ss &#x3D; ‘我的电话是18827038***，也是微信号，\n 请加入，谢谢\n\n\n’<br>print(ss.replace(‘\n’, ‘1’))<br>我的电话是18827038***，也是微信号，1 请加入，谢谢111</li><li>下载的图片设定成已排除当下载大量的图片 文本 内容的时候 需要将文件夹标记为 已排除<br>这样做的原因是 增加一个东西 pycharm会进行一个检索 将图片进行一个屏蔽检索 会减少pycharm的运行检索的时间</li></ol></li></ol>]]></content>
     
     
     <categories>
       
       <category>爬虫</category>
       
-      <category>爬虫注意事项</category>
-      
     </categories>
     
     
-  </entry>
-  
-  
-  
-  <entry>
-    <title>ROBOTS协议</title>
-    <link href="/2023/09/03/%E7%88%AC%E8%99%AB/%E5%8D%8F%E8%AE%AE/ROBOTS%E5%8D%8F%E8%AE%AE/"/>
-    <url>/2023/09/03/%E7%88%AC%E8%99%AB/%E5%8D%8F%E8%AE%AE/ROBOTS%E5%8D%8F%E8%AE%AE/</url>
-    
-    <content type="html"><![CDATA[<p>一个君子协议，可以看见网站中那些是允许爬虫和不被允许爬的地方</p><p>使用方法很简单</p><p>直接在网站后面添加&#x2F;robots.txt 即可</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.bilibili.com/robots.txt</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.baidu.com/robots.txt</span><br></code></pre></td></tr></table></figure><p>那基本上就会出现一个很简单的 允许和不被允许爬的内容</p><p><img src="/PIC/image-20230903092451619.png" alt="image-20230903092451619"></p><p>这个只是适合用于 <del>君子</del> 有句话说的好：只防君子 不防小人 咳咳。。。</p>]]></content>
-    
-    
-    <categories>
+    <tags>
       
-      <category>爬虫</category>
+      <tag>爬虫</tag>
       
-      <category>协议</category>
-      
-    </categories>
-    
+    </tags>
     
   </entry>
   
@@ -617,10 +658,39 @@
       
       <category>爬虫</category>
       
-      <category>协议</category>
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>ROBOTS协议</title>
+    <link href="/2023/09/03/%E7%88%AC%E8%99%AB/%E5%8D%8F%E8%AE%AE/ROBOTS%E5%8D%8F%E8%AE%AE/"/>
+    <url>/2023/09/03/%E7%88%AC%E8%99%AB/%E5%8D%8F%E8%AE%AE/ROBOTS%E5%8D%8F%E8%AE%AE/</url>
+    
+    <content type="html"><![CDATA[<p>一个君子协议，可以看见网站中那些是允许爬虫和不被允许爬的地方</p><p>使用方法很简单</p><p>直接在网站后面添加&#x2F;robots.txt 即可</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.bilibili.com/robots.txt</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.baidu.com/robots.txt</span><br></code></pre></td></tr></table></figure><p>那基本上就会出现一个很简单的 允许和不被允许爬的内容</p><p><img src="/PIC/image-20230903092451619.png" alt="image-20230903092451619"></p><p>这个只是适合用于 <del>君子</del> 有句话说的好：只防君子 不防小人 咳咳。。。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>爬虫</category>
       
     </categories>
     
+    
+    <tags>
+      
+      <tag>爬虫</tag>
+      
+    </tags>
     
   </entry>
   
@@ -633,6 +703,12 @@
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先进行一个说明，本篇文章将会进行几个说明，对于内置的音乐播放器，我们将会说明两种情况，一种就是使用html语言去添加一个iframe的窗口，相当于是再次添加一个窗口。与你整个页面无关了，第二种方式就是，采用插件aplayer插件。</p><h2 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">frameborder</span>=<span class="hljs-string">&quot;no&quot;</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">marginwidth</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">marginheight</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">330</span> <span class="hljs-attr">height</span>=<span class="hljs-string">86</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;//music.163.com/outchain/player?type=2&amp;id=29751583&amp;auto=1&amp;height=66&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span><br></code></pre></td></tr></table></figure><p>在你浏览器页面中，html文件中进行一个插入即可，直接进行使用。比较方便易于理解，就不过多解释了。缺点就是响应时间较慢。</p><h2 id="aplayer"><a href="#aplayer" class="headerlink" title="aplayer"></a>aplayer</h2><p>这个插件，写者仍然也是比较懵的，跟着一些大佬们多问多查，方才稍微学会了一些些基本应用，我推荐去github去查这个插件的使用方式，或者在一些</p><p>[大佬]: <a href="https://butterfly.js.org/posts/507c070f/">https://butterfly.js.org/posts/507c070f/</a> “的文章”</p><p>来进行一些学习</p><p>这个步骤大概是</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-bullet">1.</span> 我们需要先创建一个md文件 作为音乐播放器的文档生成<br><span class="hljs-bullet">1.</span> 然后输入一些md语言 来生成我们需要的音乐播放器的框架<br><span class="hljs-bullet">1.</span> 成功<br></code></pre></td></tr></table></figure><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>这就不用多说说明了 hexo n xxxx 随机创建一个都可以了</p><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&#123;% meting &quot;000PeZCQ1i4XVs&quot; &quot;tencent&quot; &quot;artist&quot; &quot;theme:#3F51B5&quot; &quot;mutex:true&quot; &quot;preload:auto&quot; %&#125;<br></code></pre></td></tr></table></figure><p><em><strong>这段代码将会通过插件自动成出一段对应的html语言</strong></em></p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;aplayer-uxAIfEUs&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aplayer aplayer-tag-marker meting-tag-marker&quot;</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">&quot;000PeZCQ1i4XVs&quot;</span> <span class="hljs-attr">data-server</span>=<span class="hljs-string">&quot;tencent&quot;</span> <span class="hljs-attr">data-type</span>=<span class="hljs-string">&quot;artist&quot;</span> <span class="hljs-attr">data-mode</span>=<span class="hljs-string">&quot;circulation&quot;</span> <span class="hljs-attr">data-autoplay</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">data-mutex</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">data-listmaxheight</span>=<span class="hljs-string">&quot;340px&quot;</span> <span class="hljs-attr">data-preload</span>=<span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-attr">data-theme</span>=<span class="hljs-string">&quot;#3F51B5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure><p>如果我们不使用 插件 则我们需要将这个对应的html代码，直接复制到html源文件里，因为少了一步插件中的转义的部分，我们就需要自己来进行了</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aplayer&quot;</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">&quot;000PeZCQ1i4XVs&quot;</span> <span class="hljs-attr">data-server</span>=<span class="hljs-string">&quot;tencent&quot;</span> <span class="hljs-attr">data-type</span>=<span class="hljs-string">&quot;artist&quot;</span> <span class="hljs-attr">data-mutex</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">data-preload</span>=<span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-attr">data-theme</span>=<span class="hljs-string">&quot;#3F51B5&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="關閉-asset-inject"><a href="#關閉-asset-inject" class="headerlink" title="關閉 asset_inject"></a>關閉 asset_inject</h3><p>此步驟適用於安裝了 hexo-tag-aplayer 插件的人</p><p>由於需要全局都插入 aplayer 和 meting 資源，為了防止插入重複的資源，需要把 asset_inject 設為 false</p><p>在 Hexo 的_config.yml配置文件中设置</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">aplayer:<br>  meting: <span class="hljs-literal">true</span><br>  asset_inject: <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure><h2 id="開啟主題的-aplayerInject"><a href="#開啟主題的-aplayerInject" class="headerlink" title="開啟主題的 aplayerInject"></a>開啟主題的 aplayerInject</h2><p>在主題的配置文件中，enable 設為 true 和 per_page 設為 true</p><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs nix"><span class="hljs-comment"># Inject the css and script (aplayer/meting)</span><br><span class="hljs-params">aplayerInject:</span><br>  <span class="hljs-params">enable:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-params">per_page:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure><p>插入 Aplayer html<br>为了适配 hexo-tag-aplayer，主題內置的 Meting js 仍为 1.2 版本，并非最新的 2.x 版本。</p><p>Aplayer html 例子：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;aplayer no-destroy&quot;</span> <span class="hljs-attr">data-id</span>=<span class="hljs-string">&quot;60198&quot;</span> <span class="hljs-attr">data-server</span>=<span class="hljs-string">&quot;netease&quot;</span> <span class="hljs-attr">data-type</span>=<span class="hljs-string">&quot;playlist&quot;</span> <span class="hljs-attr">data-fixed</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">data-autoplay</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure><ol><li></li></ol><div class="aplayer no-destroy" data-id="60198" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><p>參數解釋</p><table><thead><tr><th align="center">option</th><th align="center">default</th><th align="center">description</th></tr></thead><tbody><tr><td align="center">data-id</td><td align="center">require</td><td align="center">song id &#x2F; playlist id &#x2F; album id &#x2F; search keyword</td></tr><tr><td align="center">data-server</td><td align="center">require</td><td align="center">music platform: netease, tencent, kugou, xiami, baidu</td></tr><tr><td align="center">data-type</td><td align="center">require</td><td align="center">song, playlist, album, search, artist</td></tr><tr><td align="center">data-fixed</td><td align="center">false</td><td align="center">enable fixed mode</td></tr><tr><td align="center">data-mini</td><td align="center">false</td><td align="center">enable mini mode</td></tr><tr><td align="center">data-autoplay</td><td align="center">false</td><td align="center">audio autoplay</td></tr><tr><td align="center">data-theme</td><td align="center">#2980b9</td><td align="center">main color</td></tr><tr><td align="center">data-loop</td><td align="center">all</td><td align="center">player loop play, values: ‘all’, ‘one’, ‘none’</td></tr><tr><td align="center">data-order</td><td align="center">list</td><td align="center">player play order, values: ‘list’, ‘random’</td></tr><tr><td align="center">data-preload</td><td align="center">auto</td><td align="center">values: ‘none’, ‘metadata’, ‘auto’</td></tr><tr><td align="center">data-volume</td><td align="center">0.7</td><td align="center">default volume, notice that player will remember user setting, default volume will not work after user set volume themselves</td></tr><tr><td align="center">data-mutex</td><td align="center">true</td><td align="center">prevent to play multiple player at the same time, pause other players when this player start play</td></tr><tr><td align="center">data-lrctype</td><td align="center">0</td><td align="center">lyric type</td></tr><tr><td align="center">data-listfolded</td><td align="center">false</td><td align="center">indicate whether list should folded at first</td></tr><tr><td align="center">data-listmaxheight</td><td align="center">340px</td><td align="center">list max height</td></tr><tr><td align="center">data-storagename</td><td align="center">metingjs</td><td align="center">localStorage key that store player setting</td></tr></tbody></table><p>​</p><p>把 aplayer代碼 插入到主題配置文件的 inject.bottom 去</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">inject:</span><br><span class="hljs-symbol">  head:</span><br><span class="hljs-symbol">  bottom:</span><br></code></pre></td></tr></table></figure><p>運行 Hexo 就可以看到網頁左下角出現了 Aplayer</p><p>最後，如果你想切換頁面時，音樂不會中斷。請把主題配置文件的 pjax 設為 true</p>]]></content>
     
+    
+    <categories>
+      
+      <category>个人博客搭建</category>
+      
+    </categories>
     
     
     <tags>
@@ -653,6 +729,12 @@
     <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol><li><p>在使用hexo n xxx 命令 中创建md文档之后 会额外被“附赠”一个文件夹 如何关闭呢？</p><ol><li><img src="/../PIC/image-20230825115048584.png" alt="image-20230825115048584"></li><li>解决方法： 在_config.yml 中找到 post_asset_folder 并改为false即可</li></ol></li></ol><p>​</p><table><thead><tr><th align="center">额外选项</th><th align="center">描述</th><th align="center">默认</th></tr></thead><tbody><tr><td align="center">line_number</td><td align="center">显示行号</td><td align="center">true</td></tr><tr><td align="center">highlight</td><td align="center">启用代码高亮显示</td><td align="center">true</td></tr><tr><td align="center">fires_line</td><td align="center">指定第一行号</td><td align="center">1</td></tr><tr><td align="center">mark</td><td align="center">行突出显示特定的行，每个值用逗号分隔。使用破折号指定数字范围</td><td align="center"></td></tr><tr><td align="center">wrap</td><td align="center">将代码封装在&lt;table&gt;中</td><td align="center">true</td></tr></tbody></table>]]></content>
     
     
+    <categories>
+      
+      <category>个人博客搭建</category>
+      
+    </categories>
+    
     
     <tags>
       
@@ -672,12 +754,16 @@
     <content type="html"><![CDATA[<p>我更换了新主题，在使用这个stellar中，我阅读了本主题的操作手册，在第一步，设置ico和头像中遇见了一些小小的问题</p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol><li>我在设置头像和ico中 发现问题，即我不能引用本地电脑上的图片来作为我的图像引用 只能引用网络地址</li></ol><p><img src="/../PIC/image-20230825110733993.png" alt="如果图片无法显示请联系llizhxu789@163.com"></p><p>解决办法： 搜索了一些图床网页找到了一个 叫ImgTP的网页 免费使用 将自己的图片进行一个上传，在其中引用其图片的url 即可正常使用</p>]]></content>
     
     
+    <categories>
+      
+      <category>个人博客搭建</category>
+      
+    </categories>
+    
     
     <tags>
       
-      <tag>hexo</tag>
-      
-      <tag>主题</tag>
+      <tag>个人博客搭建</tag>
       
     </tags>
     
@@ -724,8 +810,6 @@
       
       <category>前端</category>
       
-      <category>CSS的学习</category>
-      
     </categories>
     
     
@@ -750,9 +834,7 @@
     
     <tags>
       
-      <tag>前端</tag>
-      
-      <tag>Echarts</tag>
+      <tag>[object Object]</tag>
       
     </tags>
     
@@ -779,7 +861,9 @@
     
     <tags>
       
-      <tag>software</tag>
+      <tag>软件</tag>
+      
+      <tag>IDM</tag>
       
     </tags>
     
@@ -806,7 +890,9 @@
     
     <tags>
       
-      <tag>software</tag>
+      <tag>软件</tag>
+      
+      <tag>Typora</tag>
       
     </tags>
     
