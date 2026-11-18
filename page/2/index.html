@@ -338,15 +338,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/09/06/%E7%88%AC%E8%99%AB/%E5%8F%8D%E7%88%AC/%E5%8F%8D%E7%88%AC%E4%B9%8B%E9%98%B2%E7%9B%97%E9%93%BE/" target="_self">
-          反爬之防盗链
+        <a href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/01-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A1%8C%E6%80%A7%E8%AE%BA%E8%AF%81/" target="_self">
+          ServerMaster 系列(一)：需求分析与可行性论证
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/06/%E7%88%AC%E8%99%AB/%E5%8F%8D%E7%88%AC/%E5%8F%8D%E7%88%AC%E4%B9%8B%E9%98%B2%E7%9B%97%E9%93%BE/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/01-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A1%8C%E6%80%A7%E8%AE%BA%E8%AF%81/" target="_self">
         <div>
-          前言在我们浏览一些颜色网站的时候 我们想用爬虫去保存一些图片的时候,结果保存不了，或者是显示说已经保存了，实际上根本啥也没有
+          01 · 需求分析与可行性论证 《从零写一个多服务器 RDP 批量管理工具》第 1 篇。系列目录  动手写代码之前，我花了整个第一阶段只做两件事：把需求翻译成可验证的技术命题，然后逐条证明它可行。事后看这个阶段非常值得——后面所有架构决策都能追溯到这里的结论。 需求拆解用户的原始诉求只有一句话：”在一个程序窗口里同时观看多个 Windows Server 的运行画面，并且可以对一个或多个服务器同时
         </div>
       </a>
 
@@ -354,8 +354,517 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-06 14:26" pubdate>
-              2023-09-06
+            <time datetime="2026-10-24 14:59" pubdate>
+              2026-10-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" class="category-chain-item">服务器管理工具</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/">#AI项目程序</a>
+            
+              <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/">#办公工具</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/02-%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" target="_self">
+          ServerMaster 系列(二)：总体架构设计
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/02-%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" target="_self">
+        <div>
+          02 · 总体架构设计 《从零写一个多服务器 RDP 批量管理工具》第 2 篇。系列目录  可行性确认后，我把整个系统画成一张图再开始写代码。这个项目最终的代码量不大（20 个源文件），但分层保证了每一层都可以独立排错——后面的排错故事能这么快定位，全靠这一步。 三层架构123456789101112131415161718192021┌──────────────────────────────
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-10-24 14:59" pubdate>
+              2026-10-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" class="category-chain-item">服务器管理工具</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/">#AI项目程序</a>
+            
+              <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/">#办公工具</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/04-%E6%A0%B8%E5%BF%83%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%BB%E9%9D%A2%E4%B8%8E%E8%BE%93%E5%85%A5%E5%B9%BF%E6%92%AD/" target="_self">
+          ServerMaster 系列(四)：核心实现：多画面与输入广播
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/04-%E6%A0%B8%E5%BF%83%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%BB%E9%9D%A2%E4%B8%8E%E8%BE%93%E5%85%A5%E5%B9%BF%E6%92%AD/" target="_self">
+        <div>
+          04 · 核心实现：多画面与输入广播 《从零写一个多服务器 RDP 批量管理工具》第 4 篇。系列目录  这一篇是整个项目技术含量最高的部分：RDP 会话封装、键盘扫描码注入、鼠标坐标镜像。 RdpSession：把 ActiveX 的脏活全部包起来每个服务器一个 RdpSession，持有独立的 AxMsRdpClient9NotSafeForScripting 实例。连接参数的每一项都有理由：
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-10-24 14:59" pubdate>
+              2026-10-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" class="category-chain-item">服务器管理工具</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/">#AI项目程序</a>
+            
+              <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/">#办公工具</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/05-%E5%AE%9E%E6%88%98%E6%8E%92%E9%94%99%E5%80%BC%E4%B8%8D%E5%9C%A8%E9%A2%84%E6%9C%9F%E7%9A%84%E8%8C%83%E5%9B%B4%E5%86%85/" target="_self">
+          ServerMaster 系列(五)：实战排错：值不在预期的范围内
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/05-%E5%AE%9E%E6%88%98%E6%8E%92%E9%94%99%E5%80%BC%E4%B8%8D%E5%9C%A8%E9%A2%84%E6%9C%9F%E7%9A%84%E8%8C%83%E5%9B%B4%E5%86%85/" target="_self">
+        <div>
+          05 · 实战排错：值不在预期的范围内 《从零写一个多服务器 RDP 批量管理工具》第 5 篇。系列目录  程序交付后用户第一次连接真实服务器，就碰了壁：分格上显示 1失败 · 值不在预期的范围内  这篇完整记录排查过程。COM 互操作的错误消息出了名的贫瘠，这个案例是”如何从一句话错误里挖出真相”的典型样本。 第一步：确认错误来源“值不在预期的范围内”是 CLR 对 COM E_INVALIDA
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-10-24 14:59" pubdate>
+              2026-10-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" class="category-chain-item">服务器管理工具</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/">#AI项目程序</a>
+            
+              <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/">#办公工具</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/06-FinalShell%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%B8%8E%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5/" target="_self">
+          ServerMaster 系列(六)：FinalShell密码算法与批量导入
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/10/24/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/06-FinalShell%E5%AF%86%E7%A0%81%E7%AE%97%E6%B3%95%E4%B8%8E%E6%89%B9%E9%87%8F%E5%AF%BC%E5%85%A5/" target="_self">
+        <div>
+          06 · FinalShell 密码算法与批量导入 《从零写一个多服务器 RDP 批量管理工具》第 6 篇。系列目录  用户手里有几十台服务器都在 FinalShell 里管着，要求把连接清单（含密码、分组）一键迁移过来。这个需求最后演变成整个项目里最有侦探故事色彩的一篇。 第一版：照公开资料实现，全灭网上广泛流传的 FinalShell 密码算法（旧版 ≤3.x）： 12密文 = Base64(
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-10-24 14:59" pubdate>
+              2026-10-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" class="category-chain-item">服务器管理工具</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/">#AI项目程序</a>
+            
+              <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/">#办公工具</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2026/01/30/yolostudy/yolo%E5%AD%A6%E4%B9%A01/" target="_self">
+          yolo初学记录1
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2026/01/30/yolostudy/yolo%E5%AD%A6%E4%B9%A01/" target="_self">
+        <div>
+          最近接触了不少的关于自动化的操作，包括不限制dm,乐玩（易语言），pythonautogui这些，在我对游戏进行图像检测并且开始投入使用的时候经常发现图色在游戏检测的严格性，即图色检测必须有百分比的相同性，不可旋转以下代码均以python为例 介绍Yolo(You Only Look Once)是一种one-stage目标检测算法，即仅需要 “看” 一次就可以识别出图片中物体的class类别和边界
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2026-01-30 15:21" pubdate>
+              2026-01-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/yolo/" class="category-chain-item">yolo</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/yolo/">#yolo</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/10/29/%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF/" target="_self">
+          职业技能大赛_网站技术
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/10/29/%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF/" target="_self">
+        <div>
+          前言最近确实没有来怎么写博客，纯纯是因为要代表学校去参加一个职业技能大赛，大赛要求我们使用php（后面又说是也可以使用其他语言 但是当时都已经开始学了php 哪里能够放弃呢）不过我们的比赛比较水 我就拿了个第二名&#x3D; &#x3D;、 本文作用 复习一下php 复习一下当时比赛写的垃圾的前端后端（不过说是复刻 但是其实只是拿我比赛之前的练习给发出来了，而且比赛总共就只有几个小时，且不能够联网
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-10-29 13:36" pubdate>
+              2023-10-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF/" class="category-chain-item">职业技能大赛_网站技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E4%BD%9C%E5%93%81/">#作品</a>
+            
+              <a href="/tags/%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B-%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF/">#职业技能大赛_网站技术</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2023/10/07/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/%E5%8D%8E%E5%9B%BE%E6%95%99%E8%82%B2%E6%97%B6%E6%94%BF%E7%83%AD%E7%82%B9/" target="_self">
+          华图教育时政热点
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/10/07/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/%E5%8D%8E%E5%9B%BE%E6%95%99%E8%82%B2%E6%97%B6%E6%94%BF%E7%83%AD%E7%82%B9/" target="_self">
+        <div>
+          前言对象要考公 问我能不能给她搞一个能够自动获取时政的小东西，我说可以！正好我用py练练手OVO! 所以就诞生了这么个这个小脚本 技术语言 ： python 框架 ： 无 （就是硬干） 请求库 ： request 解析库：xpath 其他： auto-py-to-exe time io sys 代码阅读前提我在写这个脚本的代码的时候 我开始慢慢用模块化写作了 不然一次维修的地方需要用的太多了 只有
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-10-07 16:21" pubdate>
+              2023-10-07
             </time>
           </div>
         
@@ -399,15 +908,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/selenium%E6%8A%93%E5%8F%96%E8%89%BA%E6%81%A9%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE/" target="_self">
-          selenium抓取艺恩网站数据
+        <a href="/2023/10/07/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E7%88%AC%E5%8F%96/" target="_self">
+          微博热搜爬取
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/selenium%E6%8A%93%E5%8F%96%E8%89%BA%E6%81%A9%E7%BD%91%E7%AB%99%E6%95%B0%E6%8D%AE/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/10/07/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/%E5%BE%AE%E5%8D%9A%E7%83%AD%E6%90%9C%E7%88%AC%E5%8F%96/" target="_self">
         <div>
-          1234567891011121314151617181920212223242526272829from selenium.webdriver import Edge# 下拉列表from selenium.webdriver.support.select import Selectfrom selenium.webdriver.common.keys import Keysimport time
+          前言我写这个小脚本的时候 只能说是 不想错过每天的新鲜瓜 OVO ！ wb上又正好是 所谓的”CS” 我觉得上面的很多东西都值得我去关注 所以便有了这个小脚本 技术语言 ： python 框架 ： 无 （就是硬干） 请求库 ： request 解析库：xpath 其他： auto-py-to-exe time json 代码阅读前提我在写这个脚本的代码的时候 我开始慢慢用模块化写作了 不然一次维修
         </div>
       </a>
 
@@ -415,8 +924,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-06 14:25" pubdate>
-              2023-09-06
+            <time datetime="2023-10-07 15:46" pubdate>
+              2023-10-07
             </time>
           </div>
         
@@ -460,15 +969,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/%E7%AA%97%E5%8F%A3%E4%B9%8B%E9%97%B4%E7%9A%84%E5%88%87%E6%8D%A2/" target="_self">
-          selenium——窗口之间的切换
+        <a href="/2023/09/13/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/freebuf%E6%8A%A5%E5%91%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E7%88%AC%E5%8F%96/" target="_self">
+          freebuf报告的数据爬取
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/%E7%AA%97%E5%8F%A3%E4%B9%8B%E9%97%B4%E7%9A%84%E5%88%87%E6%8D%A2/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/13/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/freebuf%E6%8A%A5%E5%91%8A%E7%9A%84%E6%95%B0%E6%8D%AE%E7%88%AC%E5%8F%96/" target="_self">
         <div>
-          1234567891011121314151617181920212223242526272829303132333435from selenium.webdriver import Edgefrom selenium.webdriver.common.keys import Keysimport timeweb = Edge()web.get(&quot;http://www.lagou.com
+          前言代码具有时效性，该页面随时可能会增加反爬机制，or页面框架被修改，而导致改代码无法正常获取数据 是正常的现象 代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758import requestsfrom lxml import et
         </div>
       </a>
 
@@ -476,435 +985,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-06 14:21" pubdate>
-              2023-09-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/selenium%E5%90%84%E7%A7%8D%E6%93%8D%E4%BD%9C/" target="_self">
-          selenium各种操作
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C/selenium%E5%90%84%E7%A7%8D%E6%93%8D%E4%BD%9C/" target="_self">
-        <div>
-          对于selenium的前言这个是我接触的第一个自动化的语言，我对他的理解，可以看作的针对于网页版的一个按键精灵，执行一些点击命令，对于可视化算是不错，相当于之前爬虫的可视化了 既然要演示各种操作 那我们这次就需要一个实例来进行说明了 下载包123pip install selenium=4.1.1 ## 当前使用的是4.7.2版本的selenuim 会导致edge 打开之后 自动关闭所以这里选择版
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-06 14:12" pubdate>
-              2023-09-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%A7%A3%E6%9E%90%E5%BA%93/%E7%BA%BF%E7%A8%8B%E5%92%8C%E8%BF%9B%E7%A8%8B/" target="_self">
-          线程和进程
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%A7%A3%E6%9E%90%E5%BA%93/%E7%BA%BF%E7%A8%8B%E5%92%8C%E8%BF%9B%E7%A8%8B/" target="_self">
-        <div>
-          前言这节非常牛逼 但是我不太会，玩的不是很精深。所以就讲一个 一个进程里 可以有多个线程 即 相当于 进程是一个池子 里面可以有任意多个线程 2023年8月1日11:14:42 当前思维 \1. 当我们去爬取一个网页里面的图片的时候 仅仅需要一个进程即可 把整个项目当做成一个进程 然后 在下载图片的时候 开启多线程 同时下载即可 ​ \2. 开启多个进程池子 往里面在放多个线程 进程池和线程池说到
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-06 14:03" pubdate>
-              2023-09-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/09/06/%E7%88%AC%E8%99%AB/%E4%BB%A3%E7%90%86/%E4%BB%A3%E7%90%86/" target="_self">
-          代理
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/06/%E7%88%AC%E8%99%AB/%E4%BB%A3%E7%90%86/%E4%BB%A3%E7%90%86/" target="_self">
-        <div>
-          前言说实话 我不太敢聊这方面的话题，但是我知道我又必须要有这么个帖子去说明一下这个代理，代理呢其实就是让你拥有多个IP地址，很简单通俗的话来说，就是你去爬虫请求别人的数据，那你在发送的时候会在请求头中携带上你的IP地址，如果你的这个ip地址发送的请求太多的话，就会被别人的服务器给”封掉” 禁用掉你的ip地址，这时候你就要 代理了！ 代理就是会给你提供多个ip地址让你选择，供你使用 说了那么多！ 代
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-06 13:54" pubdate>
-              2023-09-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%AF%B7%E6%B1%82%E5%BA%93/RE/" target="_self">
-          re的实战—豆瓣TOP250
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/06/%E7%88%AC%E8%99%AB/%E8%AF%B7%E6%B1%82%E5%BA%93/RE/" target="_self">
-        <div>
-          12345678910111213141516171819202122232425262728293031323334\#拿到页面原代码\#用正则提取有效信息import requestsimport reimport  csvurl = &#x27;https://movie.douban.com/top250&#x27;header = &#123;&quot;User-Agent&quot;
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-06 13:51" pubdate>
-              2023-09-06
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/09/05/%E7%88%AC%E8%99%AB/%E7%88%AC%E8%99%AB%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" target="_self">
-          爬虫的基础知识（学习前的必备了解）
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/05/%E7%88%AC%E8%99%AB/%E7%88%AC%E8%99%AB%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" target="_self">
-        <div>
-          爬虫会被分成几个库类型 去完成不同的事件内容  请求库requestsurllibseleniumaiohttp 解析库beautifulSouplxmlrepyquerytesserocr 没学 不清楚 是用来解决验证码 存储库 与数据库交互pymysql 一个纯 Python 实现的 MySQL 客户端操作库。pymongo 一个用于直接连接 mongodb 数据库进行查询操作的库。 爬虫框架
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-05 18:29" pubdate>
-              2023-09-05
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/09/04/%E7%88%AC%E8%99%AB/%E8%A7%A3%E6%9E%90%E5%BA%93/%E7%88%AC%E8%99%AB%E7%9A%84%E5%AD%A6%E4%B9%A004%E2%80%94re%E6%AD%A3%E5%88%99/" target="_self">
-          爬虫的学习04—re正则
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/04/%E7%88%AC%E8%99%AB/%E8%A7%A3%E6%9E%90%E5%BA%93/%E7%88%AC%E8%99%AB%E7%9A%84%E5%AD%A6%E4%B9%A004%E2%80%94re%E6%AD%A3%E5%88%99/" target="_self">
-        <div>
-          前言re正则是据我所知，最麻烦的一个资源遍历搜索的一个方法了（不过我知道的方法也少不太清楚有咩有更麻烦的、、），甚至学习起来我认为也是比较困难的一个方法。但在写者学习的时候，发现re的一个优点，那就是快！很快很快~也算是我们对re学习的一个必要点了 相同的代码运行，xpath运行起来要0.7s，bs4需要2.8s，pq需要1s，！而！re只需要！0.01s！！！爽翻！（但是使用的错误率还是很高、）
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-04 09:26" pubdate>
-              2023-09-04
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%88%AC%E8%99%AB/" class="category-chain-item">爬虫</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%88%AC%E8%99%AB/">#爬虫</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/09/04/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/bs4%E5%AE%9E%E6%88%98%E2%80%94%E4%BC%98%E7%BE%8E%E5%9B%BE%E5%BA%93/" target="_self">
-          bs4的实战—优美图库
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/04/%E7%88%AC%E8%99%AB/%E5%AE%9E%E6%88%98/bs4%E5%AE%9E%E6%88%98%E2%80%94%E4%BC%98%E7%BE%8E%E5%9B%BE%E5%BA%93/" target="_self">
-        <div>
-          前言在使用本篇文章的代码的时候，我们应该做到，url的实时更新，保证我们请求的目标是没有错误的， 代码123456789101112131415161718192021222324252627282930313233343536import requestsfrom bs4 import BeautifulSoupimport  time # 引入的时间包 后面有个代码行是完成一次要休息1s #
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-09-04 09:15" pubdate>
-              2023-09-04
+            <time datetime="2023-09-13 19:51" pubdate>
+              2023-09-13
             </time>
           </div>
         
@@ -946,7 +1028,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/#board">6</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/3/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
