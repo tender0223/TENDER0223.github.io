@@ -1,0 +1,927 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="温柔目送">
+  <meta name="keywords" content="博客, 技术, 学习">
+  
+    <meta name="description" content="09. 键盘注入攻坚战：四轮失败、锁屏陷阱与最终打通 系列第 9 篇。前面所有功能都一次或两次迭代就工作了，唯独「广播输入」——把主控窗口的键盘操作实时镜像到其他 RDP 分格——连续四个版本都报”无效”。这篇记录整个排错过程：三个隐蔽的陷阱，和一套用来定位它们的可视化实验台方法。  现象与错误方向广播链路分两段：捕获（WH_KEYBOARD_LL 低级钩子，拿到 vk + 扫描码）和注入（把按键">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ServerMaster 系列(九)：键盘注入攻坚战">
+<meta property="og:url" content="https://tender0223.github.io/2026/10/24/AI%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/09-%E9%94%AE%E7%9B%98%E6%B3%A8%E5%85%A5%E6%94%BB%E5%9D%9A%E6%88%98/index.html">
+<meta property="og:site_name" content="温柔目送的站点">
+<meta property="og:description" content="09. 键盘注入攻坚战：四轮失败、锁屏陷阱与最终打通 系列第 9 篇。前面所有功能都一次或两次迭代就工作了，唯独「广播输入」——把主控窗口的键盘操作实时镜像到其他 RDP 分格——连续四个版本都报”无效”。这篇记录整个排错过程：三个隐蔽的陷阱，和一套用来定位它们的可视化实验台方法。  现象与错误方向广播链路分两段：捕获（WH_KEYBOARD_LL 低级钩子，拿到 vk + 扫描码）和注入（把按键">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-24T14:03:53.000Z">
+<meta property="article:modified_time" content="2026-11-18T08:41:11.313Z">
+<meta property="article:author" content="温柔目送">
+<meta property="article:tag" content="AI项目程序">
+<meta property="article:tag" content="办公工具">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ServerMaster 系列(九)：键盘注入攻坚战 - 温柔目送的站点</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"tender0223.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>温柔目送</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ServerMaster 系列(九)：键盘注入攻坚战"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-24 22:03" pubdate>
+          2026年10月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ServerMaster 系列(九)：键盘注入攻坚战</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="09-键盘注入攻坚战：四轮失败、锁屏陷阱与最终打通"><a href="#09-键盘注入攻坚战：四轮失败、锁屏陷阱与最终打通" class="headerlink" title="09. 键盘注入攻坚战：四轮失败、锁屏陷阱与最终打通"></a>09. 键盘注入攻坚战：四轮失败、锁屏陷阱与最终打通</h1><blockquote>
+<p>系列第 9 篇。前面所有功能都一次或两次迭代就工作了，唯独「广播输入」——把主控窗口的键盘操作实时镜像到其他 RDP 分格——连续四个版本都报”无效”。这篇记录整个排错过程：三个隐蔽的陷阱，和一套用来定位它们的可视化实验台方法。</p>
+</blockquote>
+<h2 id="现象与错误方向"><a href="#现象与错误方向" class="headerlink" title="现象与错误方向"></a>现象与错误方向</h2><p>广播链路分两段：<strong>捕获</strong>（WH_KEYBOARD_LL 低级钩子，拿到 vk + 扫描码）和<strong>注入</strong>（把按键送进每个目标分格的 mstscax 控件）。遥测日志早就证明捕获段完美：钩子能看到每个键、主控焦点判定正确、目标队列正常。</p>
+<p>问题全在注入段。先后试了三种”正统”方法，全部无效：</p>
+<ol>
+<li><code>IMsRdpClientNonScriptable.SendKeys</code>——微软文档里专门用来向控件发送按键的接口；</li>
+<li><code>PostMessage(WM_KEYDOWN/WM_KEYUP)</code>——投递完整消息，lParam 按规范构造（重复数、扫描码位、扩展位、过渡位）；</li>
+<li><code>keybd_event</code>——合成”真实”键盘事件，走系统全部输入路径，配焦点轮转（SetFocus 到目标控件再注入）。</li>
+</ol>
+<p>每种都”应该”有效，每种都毫无反应。用户在远端看不到任何键出现。</p>
+<h2 id="教训一：无人锁屏的机器上，UI-注入实验全部作废"><a href="#教训一：无人锁屏的机器上，UI-注入实验全部作废" class="headerlink" title="教训一：无人锁屏的机器上，UI 注入实验全部作废"></a>教训一：无人锁屏的机器上，UI 注入实验全部作废</h2><p>为了做端到端验证，我写了一个实验台程序：真实连接一台服务器，依次注入 <code>Ctrl+Esc → notepad → 回车</code>，每种方式后对控件区域截图，看远端开始菜单是否打开。</p>
+<p>第一轮实验的截图”成功”拍到了锁屏画面——我一度以为远端服务器锁屏了。后来在实验台里加了环境自检才发现真相：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">session <span class="hljs-attribute">desktop</span>=Default<br><span class="hljs-attribute">foreground</span>=0x7174E  <span class="hljs-attribute">fg-proc</span>=LockApp<br></code></pre></td></tr></table></figure>
+
+<p><strong>前台窗口属于 LockApp（Windows 锁屏应用）</strong>——是本地机器锁屏了。用户测试完说了”不行”就锁屏离开，之后所有实验都在锁屏桌面上运行：</p>
+<ul>
+<li><code>keybd_event</code> 注入的键落在锁屏界面，无人接收；</li>
+<li><code>CopyFromScreen</code> 拍到的”远端锁屏”其实是本地锁屏（控件还没渲染出来，截到的是控件后面的本地画面）；</li>
+<li>后来换 <code>DrawToBitmap</code> 离屏截图——mstscax 用 DirectX 渲染，返回 100% 纯黑。</li>
+</ul>
+<p>结论：<strong>判定链路必须有独立于屏幕截图的可观察量</strong>，而且实验开始前必须自检会话状态（<code>OpenInputDesktop</code> 返回的桌面名、前台窗口进程名）。</p>
+<h2 id="教训二：keybd-event-发给”前台”，SetFocus-只管”自己”"><a href="#教训二：keybd-event-发给”前台”，SetFocus-只管”自己”" class="headerlink" title="教训二：keybd_event 发给”前台”，SetFocus 只管”自己”"></a>教训二：keybd_event 发给”前台”，SetFocus 只管”自己”</h2><p>第二个陷阱更深。实验台加了本地对照实验：窗体里放一个 TextBox，<code>SetFocus</code> 过去再用 <code>keybd_event</code> 打 <code>ab1</code>，结果文本框是空的。</p>
+<p>原因：<strong><code>keybd_event</code>&#x2F;<code>SendInput</code> 注入的是系统全局输入流，操作系统把它投递给”前台线程的焦点窗口”</strong>。而 <code>SetFocus</code> 只修改<strong>调用线程自己消息队列内</strong>的焦点——如果我的窗口不是前台，焦点切了也白切，注入的键全部飞给当时真正的前台窗口。</p>
+<p>所以注入前必须先拿到前台。实验台的两段式抢前台：</p>
+<ol>
+<li><code>AttachThreadInput</code> 与当前前台线程共享输入队列，再 <code>SetForegroundWindow</code>；</li>
+<li>兜底：合成一次<strong>真实鼠标点击</strong>自己的标题栏（真实用户输入的优先级凌驾于前台锁之上）。</li>
+</ol>
+<h2 id="教训三（根因）：KeyboardHookMode-默认吃掉组合键"><a href="#教训三（根因）：KeyboardHookMode-默认吃掉组合键" class="headerlink" title="教训三（根因）：KeyboardHookMode 默认吃掉组合键"></a>教训三（根因）：KeyboardHookMode 默认吃掉组合键</h2><p>前两个陷阱解决后，实验终于能在解锁的机器上跑出真实结果。实验矩阵四种方式：</p>
+<ul>
+<li>E1：前台 + SetFocus + <code>keybd_event</code> Ctrl+Esc；</li>
+<li>E2：真实鼠标点击控件 + <code>keybd_event</code>；</li>
+<li>E3：<code>SendKeys</code> 接口注入 Win 键；</li>
+<li>E4：<code>PostMessage</code>（对照）。</li>
+</ul>
+<p>结果 E1、E3 双双生效：截图里远端（Windows Server 2012）的开始屏幕被 Ctrl+Esc 打开、被 Esc 关闭；E5 全流程里 <code>notepad</code> 这个词出现在远端开始屏幕的搜索框里——字母注入铁证到达远端。</p>
+<p>但用户手里同样配方的 v0.3.0 却”无效”。差别在实验台多设了一个参数：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">((IMsRdpClientSecuredSettings2)ax.SecuredSettings).KeyboardHookMode = <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<p>mstscax 的 <code>KeyboardHookMode</code> 默认为 0——<strong>“仅全屏模式转发组合键”</strong>。窗口化嵌入的控件里，Win &#x2F; Ctrl+Esc &#x2F; Alt+Tab 这些组合键会被<strong>本地吃掉，根本不进远端</strong>。所以之前的注入测试（Ctrl+Esc 开菜单 → notepad → 回车）第一键就断在本地：开始菜单从没在远端开过，”notepad” 打进了远端当时聚焦的游戏窗口，回车无效果——用户看到的就是”没有任何反应”。</p>
+<p>这个属性属于 <code>IMsRdpClientSecuredSettings2</code>（安全设置接口），<strong>只能在连接成功之后设置</strong>，所以要在 <code>OnConnected</code> 事件里做，并配降级容错。</p>
+<h2 id="落地修复（v0-3-1）"><a href="#落地修复（v0-3-1）" class="headerlink" title="落地修复（v0.3.1）"></a>落地修复（v0.3.1）</h2><ol>
+<li><strong><code>RdpSession.OnConnected</code>：<code>KeyboardHookMode = 1</code></strong>——组合键全部转发远端，广播场景的生死开关；</li>
+<li><strong>注入节奏</strong>：实验台验证 down&#x2F;up 间隔 40–90ms 稳定有效，所有注入点（广播队列、批量推送 Ctrl+V、注入自测）统一改为此节奏，连发会被远端丢弃；</li>
+<li><strong>前台安全闸</strong>：<code>keybd_event</code> 注入全局输入流，若本程序不在前台则丢弃队列&#x2F;中止推送——否则用户切去别的程序打字时，镜像键会打进别人的窗口；</li>
+<li><strong>注入自测按钮重写</strong>：按已验证配方发送 <code>Ctrl+Esc → notepad → 回车</code>，弹窗告诉用户判定标准（远端弹出记事本 &#x3D; 链路正常），并记录前台句柄遥测。</li>
+</ol>
+<h2 id="方法论沉淀"><a href="#方法论沉淀" class="headerlink" title="方法论沉淀"></a>方法论沉淀</h2><ul>
+<li><strong>分层判定</strong>：捕获段用日志遥测，注入段用可视化实验台，环境段（前台&#x2F;桌面&#x2F;锁屏）先自检——三层各找各的证据；</li>
+<li><strong>本地对照</strong>：注入远端之前先注入本地 TextBox，一行代码把”注入方法坏了”和”目标接收坏了”分开；</li>
+<li><strong>金丝雀思维</strong>：<code>PrtSc</code> 键不需要远端任何窗口配合，截屏进远端剪贴板还会经 RDP 剪贴板通道回同步本地——是天然的全链路探针（注意本地 PrtSc 也会写本地剪贴板，需靠图像内容区分来源）；</li>
+<li><strong>无人值守机器不跑 UI 实验</strong>：锁屏之下一切输入类实验都是负结果，先查 LockApp。</li>
+</ul>
+<p>下一个版本目标是：广播鼠标镜像的同等验证，以及把注入节奏做成自适应（按目标数量动态调整批大小）。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" class="category-chain-item">服务器管理工具</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="print-no-link">#AI项目程序</a>
+      
+        <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="print-no-link">#办公工具</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ServerMaster 系列(九)：键盘注入攻坚战</div>
+      <div>https://tender0223.github.io/2026/10/24/AI项目开发/服务器管理工具/09-键盘注入攻坚战/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>温柔目送</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年10月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/11/13/AI%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/10-%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" title="ServerMaster 系列(十)：从能用到好用——项目总结 含项目下载">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ServerMaster 系列(十)：从能用到好用——项目总结 含项目下载</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/10/24/AI%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/08-%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83%E4%B8%8E%E5%BC%80%E6%BA%90/" title="ServerMaster 系列(八)：打包发布与开源">
+                        <span class="hidden-mobile">ServerMaster 系列(八)：打包发布与开源</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/busuanzi/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,933 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="温柔目送">
+  <meta name="keywords" content="博客, 技术, 学习">
+  
+    <meta name="description" content="02 · 总体架构设计 《从零写一个多服务器 RDP 批量管理工具》第 2 篇。系列目录  可行性确认后，我把整个系统画成一张图再开始写代码。这个项目最终的代码量不大（20 个源文件），但分层保证了每一层都可以独立排错——后面的排错故事能这么快定位，全靠这一步。 三层架构123456789101112131415161718192021┌──────────────────────────────">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ServerMaster 系列(二)：总体架构设计">
+<meta property="og:url" content="https://tender0223.github.io/2026/10/24/AI%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/02-%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="温柔目送的站点">
+<meta property="og:description" content="02 · 总体架构设计 《从零写一个多服务器 RDP 批量管理工具》第 2 篇。系列目录  可行性确认后，我把整个系统画成一张图再开始写代码。这个项目最终的代码量不大（20 个源文件），但分层保证了每一层都可以独立排错——后面的排错故事能这么快定位，全靠这一步。 三层架构123456789101112131415161718192021┌──────────────────────────────">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-24T06:59:23.000Z">
+<meta property="article:modified_time" content="2026-11-18T08:41:11.138Z">
+<meta property="article:author" content="温柔目送">
+<meta property="article:tag" content="AI项目程序">
+<meta property="article:tag" content="办公工具">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ServerMaster 系列(二)：总体架构设计 - 温柔目送的站点</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"tender0223.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>温柔目送</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ServerMaster 系列(二)：总体架构设计"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-10-24 14:59" pubdate>
+          2026年10月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ServerMaster 系列(二)：总体架构设计</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="02-·-总体架构设计"><a href="#02-·-总体架构设计" class="headerlink" title="02 · 总体架构设计"></a>02 · 总体架构设计</h1><blockquote>
+<p>《从零写一个多服务器 RDP 批量管理工具》第 2 篇。<a href="00-%E7%B3%BB%E5%88%97%E6%80%BB%E8%A7%88.md">系列目录</a></p>
+</blockquote>
+<p>可行性确认后，我把整个系统画成一张图再开始写代码。这个项目最终的代码量不大（20 个源文件），但分层保证了每一层都可以独立排错——后面的排错故事能这么快定位，全靠这一步。</p>
+<h2 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs dart">┌────────────────────────────────────────────────────────┐<br>│                    <span class="hljs-title class_">ServerMaster</span>.exe                    │<br>│                                                        │<br>│  UI 层 (<span class="hljs-title class_">WinForms</span>)                                      │<br>│  <span class="hljs-title class_">MainForm</span> ─ <span class="hljs-title class_">ServerListPanel</span>(左) ─ <span class="hljs-title class_">SessionGridPanel</span>(中)  │<br>│                    │                  │                 │<br>│                    │        ┌─ <span class="hljs-title class_">SessionTile</span> × N ─┐      │<br>│                    │        │ 标题栏/状态/广播勾选   │    │<br>│                    │        │  <span class="hljs-title class_">RdpSession</span>(<span class="hljs-title class_">AxHost</span>) │    │<br>│                    │        └────────────────────┘     │<br>│  ───────────────────┼────────────────────────────────  │<br>│  服务层              │                                  │<br>│  <span class="hljs-title class_">ConnectionManager</span>  会话生命周期/批量连接                  │<br>│  <span class="hljs-title class_">InputBroadcastService</span>  <span class="hljs-title class_">IMessageFilter</span> 键鼠镜像          │<br>│  <span class="hljs-title class_">ConfigStore</span> / <span class="hljs-title class_">PasswordProtector</span> / <span class="hljs-title class_">AppLogger</span>            │<br>│  <span class="hljs-title class_">SmbChannel</span> / <span class="hljs-title class_">ClipboardChannel</span>  文件传输通道              │<br>│  ───────────────────┼────────────────────────────────  │<br>│  互操作层            │                                  │<br>│  <span class="hljs-title class_">RdpSession</span> ── <span class="hljs-title class_">AxMsRdpClient9</span> (mstscax <span class="hljs-title class_">ActiveX</span> × N)     │<br>│  <span class="hljs-title class_">KeyMapper</span>(扫描码)   <span class="hljs-title class_">Win32</span> <span class="hljs-title class_">NativeMethods</span>(P/<span class="hljs-title class_">Invoke</span>)       │<br>└────────────────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure>
+
+<p>分层原则：<strong>UI 层不直接碰 ActiveX 接口</strong>，一切通过 <code>RdpSession</code> 封装。后来 mstscax 的事件参数类名、属性取值范围等种种坑，全部被隔离在互操作层里。</p>
+<h2 id="关键机制一：输入广播是”叠加”而非”抢占”"><a href="#关键机制一：输入广播是”叠加”而非”抢占”" class="headerlink" title="关键机制一：输入广播是”叠加”而非”抢占”"></a>关键机制一：输入广播是”叠加”而非”抢占”</h2><p>这是整个系统里最容易设计错的交互。我的原则：</p>
+<ul>
+<li><strong>主控会话</strong>永远正常响应用户（R2 优先保证）</li>
+<li>勾选了”广播”的会话同步接收镜像输入（R3 是附加行为）</li>
+<li>用户随时可以关掉广播，主控不受任何影响</li>
+</ul>
+<p>实现上用 <code>IMessageFilter</code> 做消息<strong>旁听</strong>（只看不拦）：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs dns">用户键鼠 ─▶ Windows 消息队列 ─▶ 主控分格的 mstscax（正常处理）<br>                     │<br>                     ▼ PreFilterMessage（不拦截）<br>         判定：消息目标 == 主控会话窗口 &amp;&amp; 广播开启<br>                     │<br>          ┌──────────┴──────────┐<br>          ▼ 键盘                 ▼ 鼠标<br>   提取 lParam 扫描码        提取客户区坐标<br>   <span class="hljs-punctuation">(</span>+扩展键标志<span class="hljs-punctuation">)</span>             按目标分格尺寸线性换算<br>          ▼                      ▼<br>   target.SendKeys<span class="hljs-punctuation">(</span>...<span class="hljs-punctuation">)</span>    PostMessage<span class="hljs-punctuation">(</span>target, WM_xBUTTONDOWN, ...<span class="hljs-punctuation">)</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="关键机制二：会话状态机"><a href="#关键机制二：会话状态机" class="headerlink" title="关键机制二：会话状态机"></a>关键机制二：会话状态机</h2><p>每个 RDP 会话是一条独立状态机，掉线自动重连：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-title class_">Disconnected</span> ─<span class="hljs-title class_">Connect</span>()─▶ <span class="hljs-title class_">Connecting</span> ─<span class="hljs-title class_">OnConnected</span>─▶ <span class="hljs-title class_">Connected</span><br>     ▲                       │                          │<br>     │手动断开/重试耗尽         <span class="hljs-title class_">OnFatalError</span>              意外掉线(代码≠<span class="hljs-number">260</span>)<br>     └───────────────────────┴────────▶ <span class="hljs-title class_">Failed</span> ◀───────┘<br>                              <span class="hljs-title class_">Reconnecting</span> ◀─ <span class="hljs-number">5</span>秒间隔×<span class="hljs-number">5</span>次<br></code></pre></td></tr></table></figure>
+
+<p>状态码 260 是客户端主动断开，其余视为意外掉线进入重连。UI 层只订阅 <code>StateChanged</code> 事件刷新状态灯（灰&#x2F;黄&#x2F;绿&#x2F;红），完全不知道重连细节。</p>
+<h2 id="关键机制三：文件传输三通道"><a href="#关键机制三：文件传输三通道" class="headerlink" title="关键机制三：文件传输三通道"></a>关键机制三：文件传输三通道</h2><table>
+<thead>
+<tr>
+<th>通道</th>
+<th>实现</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SMB 管理共享</td>
+<td><code>WNetAddConnection2</code> → 流式复制 → <code>WNetCancelConnection2</code> 用完即断</td>
+<td>多台批量分发</td>
+</tr>
+<tr>
+<td>RDP 剪贴板</td>
+<td><code>Clipboard.SetFileDropList</code> + RDP 剪贴板重定向</td>
+<td>远端 Ctrl+V</td>
+</tr>
+<tr>
+<td>拖放直传</td>
+<td>拖文件到分格 → SMB 直传目标目录</td>
+<td>单台快速</td>
+</tr>
+</tbody></table>
+<p>SMB 凭据只在传输期间存在，传输完立刻断开会话——不驻留凭据。</p>
+<h2 id="数据模型与存储"><a href="#数据模型与存储" class="headerlink" title="数据模型与存储"></a>数据模型与存储</h2><p>配置存 <code>%APPDATA%\ServerMaster\config.json</code>，用 .NET Framework 自带的 <code>JavaScriptSerializer</code>（零外部依赖），保存时”临时文件 + 替换”保证原子性：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;Servers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;Id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;3f2a…(GUID)&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;Name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Web服务器01&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;Host&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;192.168.1.10&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;Port&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3389</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;EncryptedPassword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;AQAAANCMnd8…(DPAPI)&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;Group&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;生产环境&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;ColorDepth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">16</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;AutoReconnect&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;Groups&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;生产环境&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;测试环境&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;Settings&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;MaxColumns&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;DesktopWidth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1920</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;DesktopHeight&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1080</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>密码用 **DPAPI（CryptProtectData，CurrentUser 作用域 + 应用熵）**加密：密文只有本机本 Windows 账户能解。导出配置到其他机器密码失效——这是特性不是缺陷。</p>
+<h2 id="安全设计清单"><a href="#安全设计清单" class="headerlink" title="安全设计清单"></a>安全设计清单</h2><ul>
+<li>密码密文落盘，内存中解密后立即交给 RDP 控件，不回显</li>
+<li>RDP 启用 NLA（CredSSP）</li>
+<li>SMB 凭据用完即 <code>WNetCancelConnection2</code></li>
+<li>写操作进审计日志</li>
+</ul>
+<h2 id="本篇要点"><a href="#本篇要点" class="headerlink" title="本篇要点"></a>本篇要点</h2><ul>
+<li>先画架构再写代码，分层是后来快速排错的基础</li>
+<li>广播输入设计成”叠加而非抢占”，单机体验永远不被批量功能绑架</li>
+<li>状态机把”连接”这种脏活封装在互操作层，UI 只看状态灯</li>
+</ul>
+<p><a href="03-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E7%8E%AF%E5%A2%83%E6%8E%A2%E6%B5%8B%E4%B8%8E%E4%BA%92%E6%93%8D%E4%BD%9C.md">下一篇：基础设施 →</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="category-chain-item">AI项目程序</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="category-chain-item">办公工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/" class="category-chain-item">服务器管理工具</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI%E9%A1%B9%E7%9B%AE%E7%A8%8B%E5%BA%8F/" class="print-no-link">#AI项目程序</a>
+      
+        <a href="/tags/%E5%8A%9E%E5%85%AC%E5%B7%A5%E5%85%B7/" class="print-no-link">#办公工具</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ServerMaster 系列(二)：总体架构设计</div>
+      <div>https://tender0223.github.io/2026/10/24/AI项目开发/服务器管理工具/02-总体架构设计/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>温柔目送</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年10月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/10/24/AI%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/01-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E5%8F%AF%E8%A1%8C%E6%80%A7%E8%AE%BA%E8%AF%81/" title="ServerMaster 系列(一)：需求分析与可行性论证">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ServerMaster 系列(一)：需求分析与可行性论证</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/10/24/AI%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/03-%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E7%8E%AF%E5%A2%83%E6%8E%A2%E6%B5%8B%E4%B8%8E%E4%BA%92%E6%93%8D%E4%BD%9C/" title="ServerMaster 系列(三)：基础设施：环境探测与互操作">
+                        <span class="hidden-mobile">ServerMaster 系列(三)：基础设施：环境探测与互操作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/busuanzi/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
