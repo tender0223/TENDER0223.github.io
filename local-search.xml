@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>今日的工作内容进度</title>
+    <link href="/2026/11/23/%E4%BB%8A%E6%97%A5%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9%E8%BF%9B%E5%BA%A6/"/>
+    <url>/2026/11/23/%E4%BB%8A%E6%97%A5%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%86%85%E5%AE%B9%E8%BF%9B%E5%BA%A6/</url>
+    
+    <content type="html"><![CDATA[<h2 id="今天脚本修复"><a href="#今天脚本修复" class="headerlink" title="今天脚本修复"></a>今天脚本修复</h2><ul><li>继续完善了游戏脚本跑商的一些漏洞bug   <ul><li>跑商因为加入了购买马车导致执行效率低下 已优化</li><li>跑商买东西可能出现价格变动 已优化</li><li>跑商时活动可能已结束 已修复</li><li>当没有预设方案的时候或者首次启动的时候可能会生成空白预设名 已修复</li><li>清理残留无用程序逻辑</li><li>优化程序配置减少程序运行内存</li></ul></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>生活</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>生活</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>最近的内容</title>
     <link href="/2026/11/22/%E6%9C%80%E8%BF%91%E7%9A%84%E5%86%85%E5%AE%B9/"/>
     <url>/2026/11/22/%E6%9C%80%E8%BF%91%E7%9A%84%E5%86%85%E5%AE%B9/</url>
